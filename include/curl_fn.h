@@ -7,8 +7,7 @@
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
-typedef struct ctg_utils  {
-        char            *bot_token;
-} ctg_utils_t;
+#include <stddef.h>
 
-void somefn();
+void curl_req(char *url);
+static size_t curl_cb(void *contents, size_t size, size_t nmemb, void *userp);
