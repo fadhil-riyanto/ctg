@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /*
- *  curl_obj.c
+ *  curl_obj.h
  *  Copyright (C) Fadhil Riyanto
  *
  *  https://github.com/fadhil-riyanto/ctg.git
@@ -19,4 +19,8 @@
         } chdata_t;
         
 #endif
+
+
+chdata_t* ch_init();
+void curl_req(chdata_t *ks);
 
