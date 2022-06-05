@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /*
- *  curl_obj.c
+ *  ctg.h
  *  Copyright (C) Fadhil Riyanto
  *
  *  https://github.com/fadhil-riyanto/ctg.git
