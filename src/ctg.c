@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /*
- *  curl_obj.c
+ *  ctg.c
  *  Copyright (C) Fadhil Riyanto
  *
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "curl_fn.h"
+#include "curl_obj.h"
 
 void somefn()
 {
-        //char *p =  curl_req("url here");
-        printf("%s %s", "hi this is library", "ok");
+        chdata_t *ks;
+        ks = ch_init();
+        curl_req(ks);
+
 
 }
