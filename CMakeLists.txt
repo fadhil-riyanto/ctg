@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 PROJECT(ctg)
 find_package( CURL )
-
+SET (CMAKE_CXX_FLAGS -g)
 
 SET(soure_library
     src/ctg.c
