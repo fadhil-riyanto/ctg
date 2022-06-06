@@ -6,6 +6,7 @@ SET (CMAKE_CXX_FLAGS -g)
 SET(soure_library
     src/ctg.c
     src/req_curl.c
+    src/fetcher.c
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
