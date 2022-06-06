@@ -81,14 +81,14 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 
 	return start;
 }
-
 char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
 {
+        char *buffres;
         for(int a = 0; a < len_arr; a++) {
-                
-        }
-        return "p";
+                sprintf(buffres,  "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
 
+        }
+        return buffres;
 }
 
 int main()
