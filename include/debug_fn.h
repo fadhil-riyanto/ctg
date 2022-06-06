@@ -65,7 +65,7 @@
 #define BHWHT "\e[1;97m"
 #define COLOR_RESET "\e[0m"
 
-#define DEBUG_LVL 3
+#define DEBUG_LVL 0
 
 #if defined(DEBUG_LVL) && DEBUG_LVL > 0
         #define DEBUGP(fmt, args...) fprintf(stderr, YEL "DEBUG" COLOR_RESET \
