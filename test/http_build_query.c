@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: GPL-2.0
+
+/*  
+ *  test file: http_build_query.c
+ *  Copyright (C) Fadhil Riyanto
+ *
+ *  https://github.com/fadhil-riyanto/ctg.git
+ */
+
 #include "fcntl.h"
 #include "limits.h"
 #include <stddef.h>
@@ -5,13 +14,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "stdlib.h"
+#include <string.h>
 
 typedef struct key_val {
         char *key;
         char *value;
 } key_val_t;
 
-int countinsert;
+int countinsert = 0;
 void insert_key_val(key_val_t *keyval, char *key, char *value)
 {
         keyval[countinsert].key = key;
@@ -81,21 +91,36 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 
 	return start;
 }
-char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
+const char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
 {
-        char *buffres;
+	
+        char *buffresd = (char*) malloc(sizeof(char) * 4094);
+	char *data;
         for(int a = 0; a < len_arr; a++) {
-                sprintf(buffres,  "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
-
+		if (a == (len_arr - 1)) {
+			sprintf(data, "%s=%s", data_arr_keyval[a].key, data_arr_keyval[a].value);
+			strcat(buffresd , data);
+		} else {
+			sprintf(data, "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
+			strcat(buffresd , data);
+		}
+                //fprintf(stdout,  "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
+		
+		
         }
-        return buffres;
+	printf(buffresd);
+
+        return buffresd;
 }
 
 int main()
 {
-        key_val_t data[100];
+        key_val_t data[2];
         insert_key_val(data, "tes", "set");
-        insert_key_val(data, "fa", "dhi");
-
-        fprintf(stdout, "%s", http_build_query(data, sizeof(data) / sizeof(data[0])));
+	insert_key_val(data, "tes2", "set2");
+	//insert_key_val(data, "tes2", "set2");
+        //insert_key_val(data, "fa", "dhi");
+	//printf("%d\n", sizeof(data) / sizeof(data[0]));
+	http_build_query(data, sizeof(data) / sizeof(data[0]));
+        //fprintf(stdout, "%s", http_build_query(data, sizeof(data) / sizeof(data[0])));
 }
