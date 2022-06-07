@@ -29,25 +29,6 @@ void insert_key_val(key_val_t *keyval, char *key, char *value)
 
         countinsert += 1;
 }
-
-// int main()
-// {
-//         key_val_t data[100];
-//         char *buffer0;
-//         char *buffer1;
-//         int i;
-        
-        
-//         // insert_key_val(data, "data 0", "key 0");
-//         // insert_key_val(data, "data 1", "key 1");
-//         fprintf(stdout, "%s %s\n", (char *)data[0].key, (char *)data[0].value);
-//         // insert_key_val(data, "tes", "tes");
-//         // insert_key_val(data, "tes1", "tes1");
-//         // insert_key_val(data, "tes2", "tes2");
-
-//         // fprintf(stdout, "%s", (char *)data[2].key);
-//         fprintf(stdout, "%s", (char *)data[0].key);
-// }
 /*
  * sumber : https://github.com/php/php-src/blob/23961ef382e1005db6f8c08f3ecc0002839388a7/ext/standard/url.c#L459-L555
  */
@@ -91,40 +72,35 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 
 	return start;
 }
-const char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
+char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
 {
-	
         char *buffresd = (char*) malloc(sizeof(char) * 4094);
-	// //char *urlencodedata = (char*) malloc(sizeof(char) * 4094);
+	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
+	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4094);
+	char temp[300];
 	char *data;
-        //for(int a = 0; a < len_arr; a++) {
-		// if (a == (len_arr - 1)) {
-		// 	//urlencode(urlencodedata, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
-		// 	sprintf(data, "%s=%s", data_arr_keyval[a].key, data_arr_keyval[a].value);
-		// 	strcat(buffresd , data);
-		// } else {
-			// sprintf(data, "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
-			// strcat(buffresd , data);
-		//}
-                //fprintf(stdout,  "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
-		
-		
-        //}
-	sprintf(data, "%s=%s&", data_arr_keyval[0].key, data_arr_keyval[0].value);
-	strcat(buffresd , data);
-	printf(data);
-
-        return "okok";
+	data = temp;
+        for(int a = 0; a < len_arr; a++) {
+		urlencode(urlencodedata_key, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
+		urlencode(urlencodedata_value, data_arr_keyval[a].value, strlen(data_arr_keyval[a].value), false);
+		if (a == (len_arr - 1)) {
+			sprintf(data, "%s=%s", urlencodedata_key, urlencodedata_value);
+			strcat(buffresd , data);
+		} else {
+			sprintf(data, "%s=%s&", urlencodedata_key, urlencodedata_value);
+			strcat(buffresd , data);
+	 	}
+        }
+	free(urlencodedata_key);
+	free(urlencodedata_value);
+        return buffresd;
 }
-
 int main()
 {
         key_val_t data[2];
         insert_key_val(data, "tes faddhils", "set"); // segvault
-	//insert_key_val(data, "tes2", "set2");
-	//insert_key_val(data, "tes2", "set2");
-        //insert_key_val(data, "fa", "dhi");
-	//printf("%d\n", sizeof(data) / sizeof(data[0]));
-	//http_build_query(data, sizeof(data) / sizeof(data[0]));
-        fprintf(stdout, "%s", http_build_query(data, sizeof(data) / sizeof(data[0])));
+	insert_key_val(data, "tes 2", "set2");
+	char *pp = http_build_query(data, sizeof(data) / sizeof(data[0]));
+        fprintf(stdout, "%s", pp);
+	free(pp);
 }
