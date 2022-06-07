@@ -97,29 +97,31 @@ const char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
         char *buffresd = (char*) malloc(sizeof(char) * 4094);
 	// //char *urlencodedata = (char*) malloc(sizeof(char) * 4094);
 	char *data;
-        for(int a = 0; a < len_arr; a++) {
-		if (a == (len_arr - 1)) {
-			//urlencode(urlencodedata, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
-			sprintf(data, "%s=%s", data_arr_keyval[a].key, data_arr_keyval[a].value);
-			strcat(buffresd , data);
-		} else {
-			sprintf(data, "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
-			strcat(buffresd , data);
-		}
+        //for(int a = 0; a < len_arr; a++) {
+		// if (a == (len_arr - 1)) {
+		// 	//urlencode(urlencodedata, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
+		// 	sprintf(data, "%s=%s", data_arr_keyval[a].key, data_arr_keyval[a].value);
+		// 	strcat(buffresd , data);
+		// } else {
+			// sprintf(data, "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
+			// strcat(buffresd , data);
+		//}
                 //fprintf(stdout,  "%s=%s&", data_arr_keyval[a].key, data_arr_keyval[a].value);
 		
 		
-        }
-	printf(buffresd);
+        //}
+	sprintf(data, "%s=%s&", data_arr_keyval[0].key, data_arr_keyval[0].value);
+	strcat(buffresd , data);
+	printf(data);
 
-        return data_arr_keyval[0].key;
+        return "okok";
 }
 
 int main()
 {
         key_val_t data[2];
         insert_key_val(data, "tes faddhils", "set"); // segvault
-	insert_key_val(data, "tes2", "set2");
+	//insert_key_val(data, "tes2", "set2");
 	//insert_key_val(data, "tes2", "set2");
         //insert_key_val(data, "fa", "dhi");
 	//printf("%d\n", sizeof(data) / sizeof(data[0]));
