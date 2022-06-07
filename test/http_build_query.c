@@ -95,9 +95,11 @@ const char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
 {
 	
         char *buffresd = (char*) malloc(sizeof(char) * 4094);
+	// //char *urlencodedata = (char*) malloc(sizeof(char) * 4094);
 	char *data;
         for(int a = 0; a < len_arr; a++) {
 		if (a == (len_arr - 1)) {
+			//urlencode(urlencodedata, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
 			sprintf(data, "%s=%s", data_arr_keyval[a].key, data_arr_keyval[a].value);
 			strcat(buffresd , data);
 		} else {
@@ -110,17 +112,17 @@ const char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
         }
 	printf(buffresd);
 
-        return buffresd;
+        return data_arr_keyval[0].key;
 }
 
 int main()
 {
         key_val_t data[2];
-        insert_key_val(data, "tes", "set");
+        insert_key_val(data, "tes faddhils", "set"); // segvault
 	insert_key_val(data, "tes2", "set2");
 	//insert_key_val(data, "tes2", "set2");
         //insert_key_val(data, "fa", "dhi");
 	//printf("%d\n", sizeof(data) / sizeof(data[0]));
-	http_build_query(data, sizeof(data) / sizeof(data[0]));
-        //fprintf(stdout, "%s", http_build_query(data, sizeof(data) / sizeof(data[0])));
+	//http_build_query(data, sizeof(data) / sizeof(data[0]));
+        fprintf(stdout, "%s", http_build_query(data, sizeof(data) / sizeof(data[0])));
 }
