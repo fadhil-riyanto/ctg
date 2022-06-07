@@ -22,5 +22,5 @@
 
 
 chdata_t* ch_init();
-void curl_req(chdata_t *ks);
+void curl_req(chdata_t *ks, char *url);
 
