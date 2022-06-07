@@ -19,10 +19,10 @@
 typedef struct key_val {
         char *key;
         char *value;
-} key_val_t;
+} key_value_t;
+int countinsert;
 
-int countinsert = 0;
-void insert_key_val(key_val_t *keyval, char *key, char *value)
+void insert_key_value(key_value_t *keyval, char *key, char *value)
 {
         keyval[countinsert].key = key;
         keyval[countinsert].value = value;
@@ -72,7 +72,7 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 
 	return start;
 }
-char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
+char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
 {
         char *buffresd = (char*) malloc(sizeof(char) * 4094);
 	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
@@ -97,9 +97,9 @@ char *http_build_query(key_val_t *data_arr_keyval, size_t len_arr)
 }
 int main()
 {
-        key_val_t data[2];
-        insert_key_val(data, "tes faddhils", "set"); // segvault
-	insert_key_val(data, "tes 2", "set2");
+        key_value_t data[2];
+        insert_key_value(data, "tes faddhils", "set"); // segvault
+	insert_key_value(data, "tes 2", "set2");
 	char *pp = http_build_query(data, sizeof(data) / sizeof(data[0]));
         fprintf(stdout, "%s", pp);
 	free(pp);
