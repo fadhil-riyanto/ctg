@@ -52,14 +52,14 @@ static size_t curl_cb(void *contents, size_t size, size_t nmemb, void *userp)
         return sizeall;
 }
 
-void curl_req(chdata_t *chdata)
+void curl_req(chdata_t *chdata, char *url)
 {
         CURL *ch = chdata->ch;
         CURLcode response;
 
         curl_global_init(CURL_GLOBAL_ALL);
         ch = curl_easy_init();
-        curl_easy_setopt(ch, CURLOPT_URL, "https://api.npoint.io/7e5984e52553e4e3c4dc");
+        curl_easy_setopt(ch, CURLOPT_URL, url);
         curl_easy_setopt(ch, CURLOPT_WRITEFUNCTION, curl_cb);
         curl_easy_setopt(ch, CURLOPT_WRITEDATA, chdata);
         response = curl_easy_perform(ch);
