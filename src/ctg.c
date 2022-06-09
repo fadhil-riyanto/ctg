@@ -11,12 +11,12 @@
 #include <stdlib.h>
 #include "curl_fn.h"
 #include "curl_obj.h"
+#include "tg_method.h"
 
-char *somefn()
+
+char *init()
 {
-        chdata_t *ks;
-        ks = ch_init();
-        curl_req(ks, "https://api.npoint.io/7e5984e52553e4e3c4dc");
-        return ks->data;
+        get_updates(5,3);
+        return "okok";
 
 }
