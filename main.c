@@ -17,16 +17,18 @@
 int main(int argc, char *argv[]) 
 {
         DEBUGP("argc total is %d\n", argc);
-        if (argc < 2 && getenv("CTG_BOT_TOKEN") == NULL) {
-                fprintf(stderr, "%s", "error, CTG_BOT_TOKEN not found. or pass the bot token into 2nd argc");
+        if (argc < 2) {
+                fprintf(stderr, "%s", "error, BOT TOKEN not found.");
                 return EAGAIN;
         } 
+        // printf("%s", argv[1]);
+        // return 0;
         
         ctg_utils_t *ctgu;
-        ctgu->bot_token = (getenv("CTG_BOT_TOKEN") == NULL) ? argv[2] : getenv("CTG_BOT_TOKEN");
+        ctgu->bot_token = argv[1];
         
-        
+        DEBUGP("bot token is %d\n", ctgu->bot_token);
 
-        printf("%s", init());
+        printf("%s", init(ctgu));
         
 }
