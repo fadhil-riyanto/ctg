@@ -16,7 +16,11 @@
 #include "stdlib.h"
 #include <string.h>
 
-typedef struct key_val {
-        char *key;
-        char *value;
-} key_value_t;
+#if !defined(key_value_t) || !defined(key_val)
+        typedef struct key_val {
+                char *key;
+                char *value;
+        } key_value_t;
+#endif
+
+void insert_key_value(key_value_t *keyval, char *key, char *value);
