@@ -10,13 +10,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "curl_fn.h"
+#include "ctg.h"
 #include "curl_obj.h"
 #include "tg_method.h"
 
 
-char *init()
+char *init(ctg_utils_t *maindt)
 {
-        get_updates(5,3);
+        get_updates(maindt, 5,3);
         return "okok";
 
 }
