@@ -72,7 +72,3 @@ void curl_req(chdata_t *chdata, char *url)
         curl_global_cleanup();
 }
 
-chdata_t* curl_get_result(chdata_t *chdata)
-{
-        return chdata;
-}
