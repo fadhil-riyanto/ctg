@@ -27,6 +27,6 @@ int main(int argc, char *argv[])
         
         
 
-        printf("%s", somefn());
+        printf("%s", init());
         
 }
