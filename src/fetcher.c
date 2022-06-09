@@ -24,3 +24,6 @@
 /* #include "curl_fn.h" */
 #include "curl_obj.h"
 
+
+
+tg_json_fetch_res_t parseres();
