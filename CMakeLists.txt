@@ -8,6 +8,9 @@ SET(soure_library
     src/ctg.c
     src/req_curl.c
     src/fetcher.c
+    src/tg_method.c
+    src/key_value.c
+    src/http_func.c
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
