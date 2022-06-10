@@ -17,7 +17,8 @@
 
 char *init(ctg_utils_t *maindt)
 {
-        get_updates(maindt, 0,1);
-        return "okok";
+        tg_json_getupdates_t *data = get_updates(maindt, 0,1);
+        printf("message id is %d", data->message.message_id);
+        return "";
 
 }
