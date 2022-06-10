@@ -25,6 +25,7 @@ tg_json_fetch_res_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         key_value_t data_param[2]; // create params
         chdata_t *ks;
         char buff[5000];
+
         
 
         // convert to string
@@ -37,11 +38,17 @@ tg_json_fetch_res_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
         sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);
         
-        DEBUGP("%s", buff);
+        DEBUGP("url: %s", buff);
         ks = ch_init();
         curl_req(ks, buff);
 
         printf(ks->data);
+        
+
+        if(ks->curlerr == true) {
+
+            DEBUGP("%s", "curl error while getting data. trying again ... ");
+        }
         free(urlparam);
         free(offset_str);
         free(limit_str);
