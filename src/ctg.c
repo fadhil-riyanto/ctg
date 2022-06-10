@@ -17,7 +17,7 @@
 
 char *init(ctg_utils_t *maindt)
 {
-        get_updates(maindt, 5,3);
+        get_updates(maindt, 0,1);
         return "okok";
 
 }
