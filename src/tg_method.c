@@ -43,7 +43,7 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
         sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);
         
-        DEBUGP("url: %s", buff);
+        DEBUGP("url: %s\n", buff);
         ks = ch_init();
         curl_req(ks, buff);
 
