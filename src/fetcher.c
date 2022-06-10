@@ -26,4 +26,4 @@
 
 
 
-tg_json_fetch_res_t parseres();
+tg_json_getupdates_t parseres();
