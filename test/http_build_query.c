@@ -95,12 +95,15 @@ char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
 	free(urlencodedata_value);
         return buffresd;
 }
+
 int main()
 {
         key_value_t data[2];
-        insert_key_value(data, "tes faddhils", "set"); // segvault
+	char *res = int_to_string_alloc(9);
+        insert_key_value(data, "tes faddhils", res); // segvault
 	insert_key_value(data, "tes 2", "set2");
 	char *pp = http_build_query(data, sizeof(data) / sizeof(data[0]));
         fprintf(stdout, "%s", pp);
 	free(pp);
+	free(res);
 }
