@@ -8,6 +8,7 @@
  */
 
 #include <curl/curl.h>
+#include <stdbool.h>
 #if !defined(CURL_MAX_BUFFER)
         #define CURL_MAX_BUFFER 20480
 #endif
@@ -16,6 +17,7 @@
                CURL             *ch;
                char             *data; 
                size_t           size;
+               bool             curlerr;
         } chdata_t;
         
 #endif
