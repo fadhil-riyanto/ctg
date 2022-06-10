@@ -64,8 +64,10 @@ void curl_req(chdata_t *chdata, char *url)
         curl_easy_setopt(ch, CURLOPT_WRITEDATA, chdata);
         response = curl_easy_perform(ch);
         if(response != CURLE_OK){ 
+                chdata->curlerr = true;
                 DEBUGP("curl error\n");
         }else{
+                chdata->curlerr = false;
                 DEBUGP("data: %s\n", chdata->data);
         }
         curl_easy_cleanup(ch);
