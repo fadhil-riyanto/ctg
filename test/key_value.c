@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: GPL-2.0
+
+/*
+ *  key_value.c
+ *  Copyright (C) Fadhil Riyanto
+ *
+ *  https://github.com/fadhil-riyanto/ctg.git
+ */
+
 #include "fcntl.h"
 #include "limits.h"
 #include <stdint.h>

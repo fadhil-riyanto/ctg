@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: GPL-2.0
+
+/*
+ *  strcat2.c
+ *  Copyright (C) Fadhil Riyanto
+ *
+ *  https://github.com/fadhil-riyanto/ctg.git
+ */
+
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
