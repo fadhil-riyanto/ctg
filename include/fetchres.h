@@ -7,43 +7,52 @@
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
+/* get updates */
+
 #include "stdbool.h"
 /* not accesed by other */
 
 /* get message->from */
-struct from {
-        int                     id;
-        bool                    is_bot;
-        char                    *first_name;
-        char                    *last_name;
-        char                    *username;
-        char                    *language_code;
-};
+#if !defined(from)
+        typedef struct from {
+                int                     id;
+                bool                    is_bot;
+                char                    *first_name;
+                char                    *last_name;
+                char                    *username;
+                char                    *language_code;
+        }from_t ;
+#endif
 
 /* get message->chat */
-struct chat {
-        int                     id;
-        char                    *first_name;
-        char                    *last_name;
-        char                    *username;
-        char                    *type;
-};
+#if !defined(chat) || !defined(chat_t)
+        typedef struct chat {
+                int                     id;
+                char                    *first_name;
+                char                    *last_name;
+                char                    *username;
+                char                    *type;
+        } chat_t ;
+#endif
 
 
 /* get message */
-struct message {
-        int                     message_id;
-        struct from             from;
-        struct chat             chat;
-        int                     date;
-        char                    *text;
-};
+#if !defined(message) || !defined(message_t)
+        typedef struct message {
+                int                     message_id;
+                from_t                  from;
+                chat_t                  chat;
+                int                     date;
+                char                    *text;
+        } message_t ;
+#endif
 
 
 /* end */
 
-#if !defined(tg_json_fetch_res_t)
-        typedef struct tg_json_fetch_res {
-                struct message         message;
-        } tg_json_fetch_res_t ;
+#if !defined(tg_json_getupdates_t) || !defined(tg_json_getupdates)
+        typedef struct tg_json_getupdates {
+                message_t               message;
+                int                     update_id;
+        } tg_json_getupdates_t ;
 #endif
