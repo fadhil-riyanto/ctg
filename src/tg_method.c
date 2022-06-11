@@ -27,7 +27,7 @@ void init_telegram()
 
 }
 
-tg_json_getupdates_t* get_updates(ctg_utils_t maindt, int offset, int limit)
+tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
 {
         key_value_t data_param[2]; // create params
         chdata_t *ks;
@@ -41,7 +41,7 @@ tg_json_getupdates_t* get_updates(ctg_utils_t maindt, int offset, int limit)
 	    insert_key_value(data_param, "limit", limit_str);
 
         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
-        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt.bot_token, "getUpdates", urlparam);
+        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);
         
         DEBUGP("url: %s\n", buff);
         ks = ch_init();
