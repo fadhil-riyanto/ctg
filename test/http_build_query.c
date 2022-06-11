@@ -75,9 +75,9 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
 {
         char *buffresd = (char*) malloc(sizeof(char) * 4094);
-	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
-	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4094);
-	char temp[300];
+	char *urlencodedata_key = (char*) malloc(sizeof(char) * 50); // key just use < 50. no telegram method use > 50 char
+	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4096); // max of telegram text 
+	char temp[4096 + 50 + strlen("=&") + 200]; // add 200 for handle space result from encoded url
 	char *data;
 	data = temp;
         for(int a = 0; a < len_arr; a++) {
