@@ -8,6 +8,7 @@
  */
 
 #include <json-c/json.h>
+#include <curl/curl.h>
 #include "utils.c"
 #include "stdlib.h"
 #include <stdio.h>
@@ -31,8 +32,6 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         key_value_t data_param[2]; // create params
         chdata_t *ks;
         char buff[5000];
-
-        
 
         // convert to string
         char *offset_str = int_to_string_alloc(offset);
@@ -87,9 +86,17 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
                 DEBUGP("%s\n", json_object_get_string(from_id));
                 DEBUGP("%ld\n", (uint64_t)json_object_get_uint64(from_id));
                 // getupdates_res->message.from.id = json_object_get_int(from_id);
+
+                free(ks->data);
+                curl_easy_cleanup(ks->ch);
+                free(ks);
+                json_object_put(raw);
                 return getupdates_res;
+                
         }
+        free(ks->data);
         free(ks);
+        free(raw);
         
         
 }

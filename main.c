@@ -6,7 +6,7 @@
  *
  *  https://github.com/fadhil-riyanto/ctg.git
  */
-
+#include <curl/curl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -30,5 +30,5 @@ int main(int argc, char *argv[])
         DEBUGP("bot token is %s\n", ctgu->bot_token);
 
         printf("%s", init(ctgu));
-        
+        curl_global_cleanup();
 }

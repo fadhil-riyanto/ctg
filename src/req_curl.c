@@ -31,6 +31,7 @@ chdata_t* ch_init(){
         chdata->ch = ch;
         chdata->data = malloc(sizeof(char));
         chdata->size = 0;
+        return chdata;
 }
 
 static size_t curl_cb(void *contents, size_t size, size_t nmemb, void *userp) 
