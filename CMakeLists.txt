@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.6)
 PROJECT(ctg)
 find_package( CURL )
 find_package( json-c )
-set(CMAKE_C_FLAGS_DEBUG "-Wall -Wextra")
-
+set(CMAKE_C_FLAGS_DEBUG "-Wall -Wextra -Werror")
+set(CMAKE_C_COMPILER "clang")
 
 SET(soure_library
     src/ctg.c
