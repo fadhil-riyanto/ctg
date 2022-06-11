@@ -62,17 +62,29 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         } else {
                 tg_json_getupdates_t *getupdates_res = malloc(sizeof(*getupdates_res));
 
+                /* get the result */
                 json_object *result = json_object_object_get(raw, "result");
                 index_null = json_object_array_get_idx(result, 0);
 
-                // get update id
+                /* get update_id [root] */
                 json_object *updateid = json_object_object_get(index_null, "update_id");
                 getupdates_res->update_id = json_object_get_int(updateid);
 
-                // get update id
+                /* get [root].message */
                 json_object *messagecl = json_object_object_get(index_null, "message");
+
+                /* get [root].message.message_id */
                 json_object *message_id = json_object_object_get(messagecl, "message_id");
                 getupdates_res->message.message_id = json_object_get_int(message_id);
+
+                json_object *fromcl = json_object_object_get(messagecl, "from");
+
+                /* get [root].message.from.id */
+                json_object *from_id = json_object_object_get(fromcl, "id");
+                
+                DEBUGP("%s\n", json_object_to_json_string_ext(from_id, JSON_C_TO_STRING_PRETTY));
+                printf("%d\n", json_object_get_int(from_id));
+                getupdates_res->message.from.id = json_object_get_int(from_id);
 
                 return getupdates_res;
         }
