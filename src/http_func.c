@@ -44,27 +44,77 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 
 	return start;
 }
-char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
+// char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
+// {
+//         char *buffresd = (char*) malloc(sizeof(char) * 4094);
+// 	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
+// 	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4094);
+//         buffresd[0] = '\0';
+// 	char temp[300];
+// 	char *data;
+// 	data = temp;
+//         for(int a = 0; a < len_arr; a++) {
+// 		urlencode(urlencodedata_key, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
+// 		urlencode(urlencodedata_value, data_arr_keyval[a].value, strlen(data_arr_keyval[a].value), false);
+// 		if (a == (len_arr - 1)) {
+// 			sprintf(data, "%s=%s", urlencodedata_key, urlencodedata_value);
+// 			strcat(buffresd , data);
+// 		} else {
+// 			sprintf(data, "%s=%s&", urlencodedata_key, urlencodedata_value);
+// 			strcat(buffresd , data);
+// 	 	}
+//         }
+// 	free(urlencodedata_key);
+// 	free(urlencodedata_value);
+//         return buffresd;
+// }
+
+/*
+ * thanks for om alviro iskandar
+ * https://t.me/tgdev_id/130512
+ */
+char *http_build_query(key_value_t *data, size_t len_arr)
 {
-        char *buffresd = (char*) malloc(sizeof(char) * 4094);
-	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
-	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4094);
-        buffresd[0] = '\0';
-	char temp[300];
-	char *data;
-	data = temp;
-        for(int a = 0; a < len_arr; a++) {
-		urlencode(urlencodedata_key, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
-		urlencode(urlencodedata_value, data_arr_keyval[a].value, strlen(data_arr_keyval[a].value), false);
-		if (a == (len_arr - 1)) {
-			sprintf(data, "%s=%s", urlencodedata_key, urlencodedata_value);
-			strcat(buffresd , data);
-		} else {
-			sprintf(data, "%s=%s&", urlencodedata_key, urlencodedata_value);
-			strcat(buffresd , data);
-	 	}
+        char *buffer, *tmp;
+        size_t alloc = 4096;
+        size_t total = 0;
+        size_t need_len = 0;
+        size_t i;
+
+        buffer = malloc(alloc);
+        if(!buffer) {
+                return NULL;
         }
-	free(urlencodedata_key);
-	free(urlencodedata_value);
-        return buffresd;
+
+        for(i = 0; i < len_arr; i++) {
+                size_t keylen, vallen;
+
+                keylen = strlen(data[i].key);
+                vallen = strlen(data[i].key);
+
+                need_len += (keylen * 3) + (vallen * 3) + 3;
+                if(alloc <= need_len) { // realloc again if alloc less than need len
+                        alloc = (alloc * 2) + need_len;
+                        tmp = realloc(buffer, alloc);
+                        if(!tmp) {
+                                free(buffer);
+                                return NULL;
+                        }
+                        buffer = tmp; // paste new memory alloc
+                }
+
+                urlencode(&buffer[total], data[i].key, keylen, false); // encode the key first
+                total += strlen(&buffer[total]);  // get offset
+                buffer[total++] = '='; // increment 1 of last offset, and assign '='
+                urlencode(&buffer[total], data[i].value, vallen, false); // encode the value first
+                total += strlen(&buffer[total]); // get the last offset
+                
+                // check if the literation now < of arr len, - 1 means 
+                // array len same as array alloc. started from 0
+                if (i < len_arr - 1)
+			buffer[total++] = '&'; // if literation not ended, add &
+                
+        }
+        buffer[total] = '\0'; // add termination string
+        return buffer;
 }
