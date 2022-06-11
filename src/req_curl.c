@@ -17,6 +17,7 @@
 #include <stddef.h>
 #include <fcntl.h>
 #include <string.h>
+#include "debug_fn.h"
 
 chdata_t* ch_init(){
         chdata_t *chdata;
@@ -31,7 +32,6 @@ chdata_t* ch_init(){
         chdata->ch = ch;
         chdata->data = malloc(sizeof(char));
         chdata->size = 0;
-        return chdata;
 }
 
 static size_t curl_cb(void *contents, size_t size, size_t nmemb, void *userp) 
@@ -42,7 +42,7 @@ static size_t curl_cb(void *contents, size_t size, size_t nmemb, void *userp)
         char *resize_memory_asal = realloc(cdata->data, cdata->size + sizeall + 1);
         if(!resize_memory_asal)
         {
-                printf("error no memory\n");
+                DEBUGE("%s", "error no memory\n");
                 return -ENOMEM;
         }
         
