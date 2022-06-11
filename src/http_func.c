@@ -83,36 +83,39 @@ char *http_build_query(key_value_t *data, size_t len_arr)
 
         buffer = malloc(alloc);
         if(!buffer) {
-                return NULL;
+                return NULL; // maybe no memory
         }
 
         for(i = 0; i < len_arr; i++) {
-                size_t keylen, vallen;
+                size_t key_len, val_len;
 
-                keylen = strlen(data[i].key);
-                vallen = strlen(data[i].key);
+                key_len = strlen(data[i].key);
+                val_len = strlen(data[i].value);
 
-                need_len += (keylen * 3) + (vallen * 3) + 3;
-                if(alloc <= need_len) { // realloc again if alloc less than need len
-                        alloc = (alloc * 2) + need_len;
+                need_len += (key_len * 3) + (val_len * 3) + 3;
+                if(alloc <= need_len) {
+                        alloc += (alloc * 2) + need_len;
                         tmp = realloc(buffer, alloc);
                         if(!tmp) {
                                 free(buffer);
                                 return NULL;
                         }
-                        buffer = tmp; // paste new memory alloc
+                        buffer = tmp; // paste new memory
                 }
 
-                urlencode(&buffer[total], data[i].key, keylen, false); // encode the key first
-                total += strlen(&buffer[total]);  // get offset
-                buffer[total++] = '='; // increment 1 of last offset, and assign '='
-                urlencode(&buffer[total], data[i].value, vallen, false); // encode the value first
-                total += strlen(&buffer[total]); // get the last offset
-                
-                // check if the literation now < of arr len, - 1 means 
+                urlencode(&buffer[total], data[i].key, key_len, false);
+                // encode the key first
+                total += strlen(&buffer[total]); 
+                // get offset
+                buffer[total++] = '='; // increment 1 of last offset
+                urlencode(&buffer[total], data[i].value, val_len, false);
+
+                total += strlen(&buffer[total]);
+                // get the last offset
+                // check if the literation now < of arr len, - 1 means make 
                 // array len same as array alloc. started from 0
                 if (i < len_arr - 1)
-			buffer[total++] = '&'; // if literation not ended, add &
+			buffer[total++] = '&';
                 
         }
         buffer[total] = '\0'; // add termination string
