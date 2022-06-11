@@ -9,6 +9,7 @@
 
 #include <json-c/json.h>
 #include "utils.c"
+#include "stdlib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "curl_obj.h"
@@ -77,15 +78,15 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
                 json_object *message_id = json_object_object_get(messagecl, "message_id");
                 getupdates_res->message.message_id = json_object_get_int(message_id);
 
-                json_object *fromcl = json_object_object_get(messagecl, "from");
-
                 /* get [root].message.from.id */
+                messagecl = json_object_object_get(index_null, "message");
+                json_object *fromcl = json_object_object_get(messagecl, "from");
                 json_object *from_id = json_object_object_get(fromcl, "id");
                 
-                DEBUGP("%s\n", json_object_to_json_string_ext(from_id, JSON_C_TO_STRING_PRETTY));
-                printf("%d\n", json_object_get_int(from_id));
-                getupdates_res->message.from.id = json_object_get_int(from_id);
-
+                // DEBUGP("%s\n", json_object_to_json_string_ext(from_id, JSON_C_TO_STRING_PRETTY));
+                DEBUGP("%s\n", json_object_get_string(from_id));
+                DEBUGP("%ld\n", (uint64_t)json_object_get_uint64(from_id));
+                // getupdates_res->message.from.id = json_object_get_int(from_id);
                 return getupdates_res;
         }
         free(ks);
