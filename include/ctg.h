@@ -11,4 +11,4 @@ typedef struct ctg_utils  {
         char            *bot_token;
 } ctg_utils_t;
 
-char *init(ctg_utils_t *maindt);
+char *init(ctg_utils_t maindt);

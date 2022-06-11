@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
         // printf("%s", argv[1]);
         // return 0;
         
-        ctg_utils_t *ctgu;
-        ctgu->bot_token = argv[1];
+        ctg_utils_t ctgu;
+        ctgu.bot_token = argv[1];
         
-        DEBUGP("bot token is %s\n", ctgu->bot_token);
+        DEBUGP("bot token is %s\n", ctgu.bot_token);
 
         printf("%s", init(ctgu));
         curl_global_cleanup();
