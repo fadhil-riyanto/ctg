@@ -10,7 +10,7 @@
 #include <curl/curl.h>
 #include <stdbool.h>
 #if !defined(CURL_MAX_BUFFER)
-        #define CURL_MAX_BUFFER 20480
+        #define CURL_MAX_BUFFER 20480  // blom kepake
 #endif
 #if !defined (chdata_t) || !defined (chdata)
         typedef struct chdata {

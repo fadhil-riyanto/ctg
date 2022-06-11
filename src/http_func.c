@@ -49,6 +49,7 @@ char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
         char *buffresd = (char*) malloc(sizeof(char) * 4094);
 	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
 	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4094);
+        buffresd[0] = '\0';
 	char temp[300];
 	char *data;
 	data = temp;
