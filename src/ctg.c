@@ -13,12 +13,13 @@
 #include "ctg.h"
 #include "curl_obj.h"
 #include "tg_method.h"
-
+#include "debug_fn.h"
 
 char *init(ctg_utils_t *maindt)
 {
         tg_json_getupdates_t *data = get_updates(maindt, 0,1);
-        printf("message id is %d", data->message.message_id);
+        DEBUGW("data->update_id is %d\n", data->update_id);
+        DEBUGW("data->message.message_id is %d\n", data->message.message_id);
         return "";
 
 }
