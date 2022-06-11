@@ -10,12 +10,13 @@
 /* get updates */
 
 #include "stdbool.h"
+#include "stdint.h"
 /* not accesed by other */
 
 /* get message->from */
 #if !defined(from)
         typedef struct from {
-                int                     id;
+                uint64_t                id; 
                 bool                    is_bot;
                 char                    *first_name;
                 char                    *last_name;
