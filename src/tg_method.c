@@ -47,9 +47,6 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         ks = ch_init();
         curl_req(ks, buff);
 
-        printf(ks->data);
-        
-
         if(ks->curlerr == true) {
                 DEBUGP("%s", "curl error while getting data. trying again ... ");
         }
@@ -70,10 +67,13 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
 
                 // get update id
                 json_object *updateid = json_object_object_get(index_null, "update_id");
-                getupdates_res->message.message_id = json_object_get_int(updateid);
-                //printf("\n\n%d", json_object_get_int(updateid));
+                getupdates_res->update_id = json_object_get_int(updateid);
 
-                printf("%d", getupdates_res->message.message_id);
+                // get update id
+                json_object *messagecl = json_object_object_get(index_null, "message");
+                json_object *message_id = json_object_object_get(messagecl, "message_id");
+                getupdates_res->message.message_id = json_object_get_int(message_id);
+
                 return getupdates_res;
         }
         free(ks);
