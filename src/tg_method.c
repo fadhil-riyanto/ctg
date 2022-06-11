@@ -38,7 +38,7 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
         char *limit_str = int_to_string_alloc(limit);
 
         insert_key_value(data_param, "offset", offset_str); 
-	    insert_key_value(data_param, "limit", limit_str);
+	insert_key_value(data_param, "limit", limit_str);
 
         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
         sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);

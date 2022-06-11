@@ -94,18 +94,18 @@ char *http_build_query(key_value_t *data, size_t len_arr)
 
         buffer = malloc(alloc);
         if(!buffer) {
-                return NULL;
+                return NULL; // maybe no memory
         }
 
         for(i = 0; i < len_arr; i++) {
-                size_t keylen, vallen;
+                size_t key_len, val_len;
 
-                keylen = strlen(data[i].key);
-                vallen = strlen(data[i].key);
+                key_len = strlen(data[i].key);
+                val_len = strlen(data[i].value);
 
-                need_len += (keylen * 3) + (vallen * 3) + 3;
+                need_len += (key_len * 3) + (val_len * 3) + 3;
                 if(alloc <= need_len) {
-                        alloc = (alloc * 2) + need_len;
+                        alloc += (alloc * 2) + need_len;
                         tmp = realloc(buffer, alloc);
                         if(!tmp) {
                                 free(buffer);
@@ -114,12 +114,12 @@ char *http_build_query(key_value_t *data, size_t len_arr)
                         buffer = tmp; // paste new memory
                 }
 
-                urlencode(&buffer[total], data[i].key, keylen, false);
+                urlencode(&buffer[total], data[i].key, key_len, false);
                 // encode the key first
                 total += strlen(&buffer[total]); 
                 // get offset
                 buffer[total++] = '='; // increment 1 of last offset
-                urlencode(&buffer[total], data[i].value, vallen, false);
+                urlencode(&buffer[total], data[i].value, val_len, false);
 
                 total += strlen(&buffer[total]);
                 // get the last offset
@@ -133,15 +133,44 @@ char *http_build_query(key_value_t *data, size_t len_arr)
         return buffer;
 }
 
+#include <limits.h>
+#define INT_DECIMAL_STRING_SIZE(int_type) ((CHAR_BIT*sizeof(int_type)-1)*10/33+3)
+
+char *int_to_string_alloc(int x) {
+  int i = x;
+  char buf[INT_DECIMAL_STRING_SIZE(int)];
+  char *p = &buf[sizeof buf] - 1;
+  *p = '\0';
+  if (i >= 0) {
+    i = -i;
+  }
+  do {
+    p--;
+    *p = (char) ('0' - i % 10);
+    i /= 10;
+  } while (i);
+  if (x < 0) {
+    p--;
+    *p = '-';
+  }
+  size_t len = (size_t) (&buf[sizeof buf] - p);
+  char *s = malloc(len);
+  if (s) {
+    memcpy(s, p, len);
+  }
+  return s;
+}
+
 int main() 
 {
        
         key_value_t data[2];
         char *string, *returnstr;
-        size_t i;
-        size_t len = 1024UL * 5;
+        char *test = int_to_string_alloc(8);
 
-        insert_key_value(data, "keytest", "valtest");
+        //printf("%s", test);
+
+        insert_key_value(data, "keytest", "aaaa");
         insert_key_value(data, "keytest1", "valtest1");
 
         returnstr = http_build_query(data, 2);
