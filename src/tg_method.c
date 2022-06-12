@@ -11,6 +11,8 @@
 #include <curl/curl.h>
 #include "utils.c"
 #include "stdlib.h"
+#include <json-c/json_object.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "curl_obj.h"
@@ -25,6 +27,16 @@
 void init_telegram()
 {
 
+}
+
+char *my_strcpy(char *destination, const char *source) {
+    char *ptr1 = (char*)source;
+    char *ptr2 = destination;
+    while(*ptr1 != '\0') {
+        *ptr2++ = *ptr1++;
+    }
+    *ptr2 = '\0';
+    return destination;
 }
 
 tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
@@ -60,7 +72,7 @@ returnreq:
         json_object *index_null;
         json_object *is_ok = json_object_object_get(raw, "ok");
         if(json_object_get_boolean(is_ok) != true) {
-                DEBUGE("\n%s", "telegram result returned false");
+                DEBUGE("%s\n", "telegram result returned false");
                 exit(1);
         } 
         tg_json_getupdates_t *getupdates_res = malloc(sizeof(*getupdates_res));
@@ -84,11 +96,27 @@ returnreq:
         messagecl = json_object_object_get(index_null, "message");
         json_object *fromcl = json_object_object_get(messagecl, "from");
         json_object *from_id = json_object_object_get(fromcl, "id");
-        
-        // DEBUGP("%s\n", json_object_to_json_string_ext(from_id, JSON_C_TO_STRING_PRETTY));
-        DEBUGP("%s\n", json_object_get_string(from_id));
-        DEBUGP("%ld\n", (uint64_t)json_object_get_uint64(from_id));
-        // getupdates_res->message.from.id = json_object_get_int(from_id);
+        getupdates_res->message.from.id = json_object_get_int64(from_id);
+
+        /* get [root].message.from.is_bot */
+        json_object *is_bot = json_object_object_get(fromcl, "is_bot");
+        getupdates_res->message.from.is_bot = json_object_get_boolean(is_bot);
+
+        /* get [root].message.from.first_name */
+        json_object *first_name = json_object_object_get(fromcl, "first_name");
+        getupdates_res->message.from.first_name = json_object_get_string(first_name);
+
+        /* get [root].message.from.first_name */
+        json_object *last_name = json_object_object_get(fromcl, "last_name");
+        getupdates_res->message.from.last_name = json_object_get_string(last_name);
+
+        /* get [root].message.from.username */
+        json_object *username = json_object_object_get(fromcl, "username");
+        getupdates_res->message.from.username = json_object_get_string(username);
+
+        /* get [root].message.from.username */
+        json_object *language_code = json_object_object_get(fromcl, "language_code");
+        getupdates_res->message.from.language_code = json_object_get_string(language_code);
 
         free(ks->data);
         curl_easy_cleanup(ks->ch);
