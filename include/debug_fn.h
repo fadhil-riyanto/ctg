@@ -81,6 +81,9 @@
         #define DEBUGE(fmt, args...) fprintf(stderr, RED "WARNING" COLOR_RESET \
                 ": " RED "%s:%d" COLOR_RESET ":" RED "%s()" COLOR_RESET ": "\
                 fmt, __FILE__, __LINE__, __func__, ##args)
+         #define DEBUGI(fmt, args...) fprintf(stderr, YEL "INFO" COLOR_RESET \
+                ": " COLOR_RESET ": "\
+                fmt, ##args)
 #else
  #define DEBUGP(fmt, args...)
  #define DEBUGW(fmt, args...)
