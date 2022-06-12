@@ -18,10 +18,10 @@
         typedef struct from {
                 uint64_t                id; 
                 bool                    is_bot;
-                char                    *first_name;
-                char                    *last_name;
-                char                    *username;
-                char                    *language_code;
+                const char              *first_name;
+                const char              *last_name;
+                const char              *username;
+                const char              *language_code;
         }from_t ;
 #endif
 
