@@ -45,8 +45,8 @@ char *init(ctg_utils_t *maindt)
 
         // // signal(SIGINT, sig_callback);
         for(;;) {
-                 data = get_updates(maindt, data, 730076240,1);
-        //         DEBUGW("data->update_id is %d\n", data->update_id);
+                data = get_updates(maindt, data, 730076240,1);
+                DEBUGW("data->update_id is %d\n", data->update_id);
                 
         //         // DEBUGW("data->message.message_id is %d\n", data->message.message_id);
         //         // DEBUGW("data->message.date is %lu\n", data->message.date);
@@ -76,7 +76,7 @@ char *init(ctg_utils_t *maindt)
 
 
 
-        // free(data);
+        free(data);
         return "";
 
 }

@@ -168,13 +168,19 @@ int main()
         char *string, *returnstr;
         char *test = int_to_string_alloc(8);
 
-        //printf("%s", test);
+        char buff[5000];
 
-        insert_key_value(data, "keytest", "aaaa");
-        insert_key_value(data, "keytest1", "valtest1");
+        // convert to string
+        char *offset_str = int_to_string_alloc(922892);
+        char *limit_str = int_to_string_alloc(1);
+
+        insert_key_value(data, "offset", offset_str); 
+	insert_key_value(data, "limit", limit_str);
 
         returnstr = http_build_query(data, 2);
-        printf("%s", returnstr);
+
+        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", "tokenenenenen", "getUpdates", returnstr);
+        printf("%s", buff);
         free(returnstr);
 
 }

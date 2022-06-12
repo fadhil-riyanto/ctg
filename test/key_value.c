@@ -27,14 +27,14 @@ void insert_key_val(key_val_t *keyval, char *key, char *value)
 
 int main()
 {
-        key_val_t data[100];
+        key_val_t data[1];
         char *buffer0;
         char *buffer1;
         int i;
         
         
-        // insert_key_val(data, "data 0", "key 0");
-        // insert_key_val(data, "data 1", "key 1");
+        insert_key_val(data, "data 0", "key 0");
+        insert_key_val(data, "data 1", "key 1");
         fprintf(stdout, "%s %s\n", (char *)data[0].key, (char *)data[0].value);
         // insert_key_val(data, "tes", "tes");
         // insert_key_val(data, "tes1", "tes1");
