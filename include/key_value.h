@@ -24,3 +24,4 @@
 #endif
 
 void insert_key_value(key_value_t *keyval, char *key, char *value);
+void reset_count_key_value();
