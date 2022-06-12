@@ -92,6 +92,13 @@ returnreq:
         json_object *message_id = json_object_object_get(messagecl, "message_id");
         getupdates_res->message.message_id = json_object_get_int(message_id);
 
+        /* get [root].message.date and text */
+        json_object *date = json_object_object_get(messagecl, "date");
+        getupdates_res->message.date = json_object_get_int64(date);
+
+        json_object *text = json_object_object_get(messagecl, "text");
+        getupdates_res->message.text = json_object_get_string(text);
+
         /* get [root].message.from.id */
         messagecl = json_object_object_get(index_null, "message");
         json_object *fromcl = json_object_object_get(messagecl, "from");
@@ -102,7 +109,7 @@ returnreq:
         json_object *is_bot = json_object_object_get(fromcl, "is_bot");
         getupdates_res->message.from.is_bot = json_object_get_boolean(is_bot);
 
-        /* get [root].message.from.first_name */
+        /* get [root].message.from.type */
         json_object *first_name = json_object_object_get(fromcl, "first_name");
         getupdates_res->message.from.first_name = json_object_get_string(first_name);
 
@@ -117,6 +124,29 @@ returnreq:
         /* get [root].message.from.username */
         json_object *language_code = json_object_object_get(fromcl, "language_code");
         getupdates_res->message.from.language_code = json_object_get_string(language_code);
+        
+        
+        /* get [root].message.chat.id */
+        messagecl = json_object_object_get(index_null, "message");
+        json_object *chatcl = json_object_object_get(messagecl, "chat");
+        json_object *chat_id = json_object_object_get(chatcl, "id");
+        getupdates_res->message.chat.id = json_object_get_int64(chat_id);
+
+        /* get [root].message.chat.first_name */
+        first_name = json_object_object_get(chatcl, "first_name");
+        getupdates_res->message.chat.first_name = json_object_get_string(first_name);
+
+        /* get [root].message.chat.last_name */
+        last_name = json_object_object_get(chatcl, "last_name");
+        getupdates_res->message.chat.last_name = json_object_get_string(last_name);
+
+        /* get [root].message.chat.username */
+        username = json_object_object_get(chatcl, "username");
+        getupdates_res->message.chat.username = json_object_get_string(username);
+
+        /* get [root].message.chat.type */
+        json_object *type = json_object_object_get(chatcl, "type");
+        getupdates_res->message.chat.type = json_object_get_string(type);
 
         free(ks->data);
         curl_easy_cleanup(ks->ch);

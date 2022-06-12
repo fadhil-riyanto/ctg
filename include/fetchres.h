@@ -9,8 +9,8 @@
 
 /* get updates */
 
-#include "stdbool.h"
-#include "stdint.h"
+#include <stdbool.h>
+#include <stdint.h>
 /* not accesed by other */
 
 /* get message->from */
@@ -43,8 +43,8 @@
                 int                     message_id;
                 from_t                  from;
                 chat_t                  chat;
-                int                     date;
-                char                    *text;
+                uint64_t                date;
+                const char              *text;
         } message_t ;
 #endif
 
