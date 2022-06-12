@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
         ctg_utils_t ctgu;
         ctgu.bot_token = argv[1];
         
-        DEBUGP("bot token is %s\n", ctgu.bot_token);
+        DEBUGI("bot token is %s\n", ctgu.bot_token);
 
         printf("%s", init(&ctgu));
         curl_global_cleanup();
