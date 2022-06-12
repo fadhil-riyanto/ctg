@@ -28,11 +28,11 @@
 /* get message->chat */
 #if !defined(chat) || !defined(chat_t)
         typedef struct chat {
-                int                     id;
-                char                    *first_name;
-                char                    *last_name;
-                char                    *username;
-                char                    *type;
+                uint64_t                id;
+                const char              *first_name;
+                const char              *last_name;
+                const char              *username;
+                const char              *type;
         } chat_t ;
 #endif
 
