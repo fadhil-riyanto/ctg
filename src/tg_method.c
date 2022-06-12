@@ -24,11 +24,6 @@
 /* debug */
 #include "debug_fn.h"
 
-void init_telegram()
-{
-
-}
-
 tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, tg_json_getupdates_t *getupdates_res, int offset, int limit)
 {
         key_value_t data_param[2]; // create params
@@ -46,24 +41,19 @@ tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, tg_json_getupdates_t *get
         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
         sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);
         
-        // DEBUGP("url: %s\n", buff);
+        DEBUGP("url: %s\n", buff);
 returnreq:
         ks = ch_init();
-        DEBUGP("%s\n", "stack smashing before");
         curl_req(ks, buff);
-        
-        
 
         if(ks->curlerr == true) {
                 DEBUGP("%s", "curl error while getting data. trying again ... ");
                 goto returnreq;
         }
         
-        // free(urlparam);
-        // free(offset_str);
-        // free(limit_str);
-
-        
+        free(urlparam);
+        free(offset_str);
+        free(limit_str);
 
         json_object *raw = json_tokener_parse(ks->data);
         
@@ -152,10 +142,5 @@ returnreq:
         curl_easy_cleanup(ks->ch);
         free(ks);
         
-        
-
-        // debug sigabrt
-        // getupdates_res->update_id = 9;
-
         return getupdates_res;
 }
