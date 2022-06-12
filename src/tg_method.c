@@ -29,128 +29,121 @@ void init_telegram()
 
 }
 
-char *my_strcpy(char *destination, const char *source) {
-    char *ptr1 = (char*)source;
-    char *ptr2 = destination;
-    while(*ptr1 != '\0') {
-        *ptr2++ = *ptr1++;
-    }
-    *ptr2 = '\0';
-    return destination;
-}
-
-tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, int offset, int limit)
+tg_json_getupdates_t* get_updates(ctg_utils_t *maindt, tg_json_getupdates_t *getupdates_res, int offset, int limit)
 {
-        key_value_t data_param[2]; // create params
-        chdata_t *ks;
-        char buff[5000];
+//         key_value_t data_param[2]; // create params
+//         chdata_t *ks;
+//         char buff[5000];
 
-        // convert to string
-        char *offset_str = int_to_string_alloc(offset);
-        char *limit_str = int_to_string_alloc(limit);
+//         // convert to string
+//         char *offset_str = int_to_string_alloc(offset);
+//         char *limit_str = int_to_string_alloc(limit);
 
-        insert_key_value(data_param, "offset", offset_str); 
-	insert_key_value(data_param, "limit", limit_str);
+//         insert_key_value(data_param, "offset", offset_str); 
+// 	insert_key_value(data_param, "limit", limit_str);
 
-        char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
-        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);
+//         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
+//         sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "getUpdates", urlparam);
         
-        DEBUGP("url: %s\n", buff);
-returnreq:
-        ks = ch_init();
-        curl_req(ks, buff);
+//         DEBUGP("url: %s\n", buff);
+// returnreq:
+//         ks = ch_init();
+//         curl_req(ks, buff);
 
-        if(ks->curlerr == true) {
-                DEBUGP("%s", "curl error while getting data. trying again ... ");
-                goto returnreq;
-        }
-        free(urlparam);
-        free(offset_str);
-        free(limit_str);
+//         if(ks->curlerr == true) {
+//                 DEBUGP("%s", "curl error while getting data. trying again ... ");
+//                 goto returnreq;
+//         }
+//         free(urlparam);
+//         free(offset_str);
+//         free(limit_str);
 
-        json_object *raw = json_tokener_parse(ks->data);
-        json_object *index_null;
-        json_object *is_ok = json_object_object_get(raw, "ok");
-        if(json_object_get_boolean(is_ok) != true) {
-                DEBUGE("%s\n", "telegram result returned false");
-                exit(1);
-        } 
-        tg_json_getupdates_t *getupdates_res = malloc(sizeof(*getupdates_res));
+//         json_object *raw = json_tokener_parse(ks->data);
+//         json_object *index_null;
+//         json_object *is_ok = json_object_object_get(raw, "ok");
+//         if(json_object_get_boolean(is_ok) != true) {
+//                 DEBUGE("%s\n", "telegram result returned false");
+//                 exit(1);
+//         } 
 
-        /* get the result */
-        json_object *result = json_object_object_get(raw, "result");
-        index_null = json_object_array_get_idx(result, 0);
+//         /* get the result */
+//         json_object *result = json_object_object_get(raw, "result");
+//         index_null = json_object_array_get_idx(result, 0);
 
-        /* get update_id [root] */
-        json_object *updateid = json_object_object_get(index_null, "update_id");
-        getupdates_res->update_id = json_object_get_int(updateid);
+//         /* get update_id [root] */
+//         json_object *updateid = json_object_object_get(index_null, "update_id");
+//         getupdates_res->update_id = json_object_get_int(updateid);
 
-        /* get [root].message */
-        json_object *messagecl = json_object_object_get(index_null, "message");
+//         /* get [root].message */
+//         json_object *messagecl = json_object_object_get(index_null, "message");
 
-        /* get [root].message.message_id */
-        json_object *message_id = json_object_object_get(messagecl, "message_id");
-        getupdates_res->message.message_id = json_object_get_int(message_id);
+//         /* get [root].message.message_id */
+//         json_object *message_id = json_object_object_get(messagecl, "message_id");
+//         getupdates_res->message.message_id = json_object_get_int(message_id);
 
-        /* get [root].message.date and text */
-        json_object *date = json_object_object_get(messagecl, "date");
-        getupdates_res->message.date = json_object_get_int64(date);
+//         /* get [root].message.date and text */
+//         json_object *date = json_object_object_get(messagecl, "date");
+//         getupdates_res->message.date = json_object_get_int64(date);
 
-        json_object *text = json_object_object_get(messagecl, "text");
-        getupdates_res->message.text = json_object_get_string(text);
+//         json_object *text = json_object_object_get(messagecl, "text");
+//         getupdates_res->message.text = json_object_get_string(text);
 
-        /* get [root].message.from.id */
-        messagecl = json_object_object_get(index_null, "message");
-        json_object *fromcl = json_object_object_get(messagecl, "from");
-        json_object *from_id = json_object_object_get(fromcl, "id");
-        getupdates_res->message.from.id = json_object_get_int64(from_id);
+//         /* get [root].message.from.id */
+//         messagecl = json_object_object_get(index_null, "message");
+//         json_object *fromcl = json_object_object_get(messagecl, "from");
+//         json_object *from_id = json_object_object_get(fromcl, "id");
+//         getupdates_res->message.from.id = json_object_get_int64(from_id);
 
-        /* get [root].message.from.is_bot */
-        json_object *is_bot = json_object_object_get(fromcl, "is_bot");
-        getupdates_res->message.from.is_bot = json_object_get_boolean(is_bot);
+//         /* get [root].message.from.is_bot */
+//         json_object *is_bot = json_object_object_get(fromcl, "is_bot");
+//         getupdates_res->message.from.is_bot = json_object_get_boolean(is_bot);
 
-        /* get [root].message.from.type */
-        json_object *first_name = json_object_object_get(fromcl, "first_name");
-        getupdates_res->message.from.first_name = json_object_get_string(first_name);
+//         /* get [root].message.from.type */
+//         json_object *first_name = json_object_object_get(fromcl, "first_name");
+//         getupdates_res->message.from.first_name = json_object_get_string(first_name);
 
-        /* get [root].message.from.first_name */
-        json_object *last_name = json_object_object_get(fromcl, "last_name");
-        getupdates_res->message.from.last_name = json_object_get_string(last_name);
+//         /* get [root].message.from.first_name */
+//         json_object *last_name = json_object_object_get(fromcl, "last_name");
+//         getupdates_res->message.from.last_name = json_object_get_string(last_name);
 
-        /* get [root].message.from.username */
-        json_object *username = json_object_object_get(fromcl, "username");
-        getupdates_res->message.from.username = json_object_get_string(username);
+//         /* get [root].message.from.username */
+//         json_object *username = json_object_object_get(fromcl, "username");
+//         getupdates_res->message.from.username = json_object_get_string(username);
 
-        /* get [root].message.from.username */
-        json_object *language_code = json_object_object_get(fromcl, "language_code");
-        getupdates_res->message.from.language_code = json_object_get_string(language_code);
+//         /* get [root].message.from.username */
+//         json_object *language_code = json_object_object_get(fromcl, "language_code");
+//         getupdates_res->message.from.language_code = json_object_get_string(language_code);
         
         
-        /* get [root].message.chat.id */
-        messagecl = json_object_object_get(index_null, "message");
-        json_object *chatcl = json_object_object_get(messagecl, "chat");
-        json_object *chat_id = json_object_object_get(chatcl, "id");
-        getupdates_res->message.chat.id = json_object_get_int64(chat_id);
+//         /* get [root].message.chat.id */
+//         messagecl = json_object_object_get(index_null, "message");
+//         json_object *chatcl = json_object_object_get(messagecl, "chat");
+//         json_object *chat_id = json_object_object_get(chatcl, "id");
+//         getupdates_res->message.chat.id = json_object_get_int64(chat_id);
 
-        /* get [root].message.chat.first_name */
-        first_name = json_object_object_get(chatcl, "first_name");
-        getupdates_res->message.chat.first_name = json_object_get_string(first_name);
+//         /* get [root].message.chat.first_name */
+//         first_name = json_object_object_get(chatcl, "first_name");
+//         getupdates_res->message.chat.first_name = json_object_get_string(first_name);
 
-        /* get [root].message.chat.last_name */
-        last_name = json_object_object_get(chatcl, "last_name");
-        getupdates_res->message.chat.last_name = json_object_get_string(last_name);
+//         /* get [root].message.chat.last_name */
+//         last_name = json_object_object_get(chatcl, "last_name");
+//         getupdates_res->message.chat.last_name = json_object_get_string(last_name);
 
-        /* get [root].message.chat.username */
-        username = json_object_object_get(chatcl, "username");
-        getupdates_res->message.chat.username = json_object_get_string(username);
+//         /* get [root].message.chat.username */
+//         username = json_object_object_get(chatcl, "username");
+//         getupdates_res->message.chat.username = json_object_get_string(username);
 
-        /* get [root].message.chat.type */
-        json_object *type = json_object_object_get(chatcl, "type");
-        getupdates_res->message.chat.type = json_object_get_string(type);
+//         /* get [root].message.chat.type */
+//         json_object *type = json_object_object_get(chatcl, "type");
+//         getupdates_res->message.chat.type = json_object_get_string(type);
 
-        free(ks->data);
-        curl_easy_cleanup(ks->ch);
-        free(ks);
-        json_object_put(raw);
+//         free(ks->data);
+//         curl_easy_cleanup(ks->ch);
+//         free(ks);
+//         json_object_put(raw);
+
+        // debug sigabrt
+        getupdates_res->update_id = 9;
+
         return getupdates_res;
 }
