@@ -7,6 +7,8 @@
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
+#ifndef _FETCHRES_H_
+#define _FETCHRES_H_
 /* get updates */
 
 #include <stdbool.h>
@@ -56,4 +58,5 @@
                 message_t               message;
                 int                     update_id;
         } tg_json_getupdates_t ;
+#endif
 #endif
