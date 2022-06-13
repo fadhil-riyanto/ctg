@@ -30,8 +30,13 @@ void *handle_update(tg_json_getupdates_t *recv_data)
         if(want_exit == 1) {
                 free(recv_data);
                 pthread_exit(NULL);
+                exit(0);
+                
         }else {
-                printf("hai nama saya %s\n", recv_data->message.from.username);
+                if(recv_data->update_id != NULL) {
+                        printf("[RECEIVED] %s\n", recv_data->message.from.username);
+
+                }
                 pthread_exit(NULL);
         }
         
@@ -41,14 +46,23 @@ char *init(ctg_utils_t *maindt)
 {
         tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t) * 9999);;
         pthread_t threads;
+
+        unsigned long int update_id = 0;
         signal(SIGINT, sig_callback);
         for(;;) {
+                if(want_exit == 1) {
+                        DEBUGP("exiting ... ");
+                        free(data);
+                        exit(0);
+                } else {
+                        data = get_updates(maindt, data, update_id, 1);
+                        update_id = data->update_id + 1;
 
-                data = get_updates(maindt, data, 730076242,1);
-
-                // create thread
+                        // create thread
+                        
+                        int rc = pthread_create(&threads, NULL, handle_update, data);
+                }
                 
-                int rc = pthread_create(&threads, NULL, handle_update, data);
 
                 // DEBUGW("data->update_id is %d\n", data->update_id);
                 
@@ -69,11 +83,7 @@ char *init(ctg_utils_t *maindt)
                 // DEBUGW("data->message->chat.username is %s\n", data->message.chat.username);
                 // DEBUGW("data->message->chat.type is %s\n", data->message.chat.type);
 
-                if(want_exit == 1) {
-                        DEBUGP("exiting ... ");
-                        free(data);
-                        exit(0);
-                }
+                
         }
         //free(data);
         return "";
