@@ -21,6 +21,7 @@ static volatile int want_exit = 0;
 
 void sig_callback()
 {
+        printf("SIGINT detected. please wait for exiting ..\n");
         want_exit = 1; // change status to 1
 }
 
@@ -47,10 +48,12 @@ char *init(ctg_utils_t *maindt)
 
         unsigned long int update_id = 0;
         signal(SIGINT, sig_callback);
+
         for(;;) {
                 if(want_exit == 1) {
                         printf("%s\n", "exiting main thread ... ");
                         free(data);
+                        pthread_join(threads, NULL);
                         exit(0);
                 } else {
                         data = get_updates(maindt, data, update_id, 1);
