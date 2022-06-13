@@ -28,10 +28,8 @@ void *handle_update(tg_json_getupdates_t *recv_data)
 {
         // handle acces revc_data after ctrl + c
         if(want_exit == 1) {
-                free(recv_data);
+                printf("%s\n", "exiting sub thread ... ");
                 pthread_exit(NULL);
-                exit(0);
-                
         }else {
                 if(recv_data->update_id != NULL) {
                         printf("[RECEIVED] %s\n", recv_data->message.from.username);
@@ -51,7 +49,7 @@ char *init(ctg_utils_t *maindt)
         signal(SIGINT, sig_callback);
         for(;;) {
                 if(want_exit == 1) {
-                        DEBUGP("exiting ... ");
+                        printf("%s\n", "exiting main thread ... ");
                         free(data);
                         exit(0);
                 } else {
