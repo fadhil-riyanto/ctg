@@ -14,7 +14,7 @@
 /* not accesed by other */
 
 /* get message->from */
-#if !defined(from)
+#if !defined(from) || !defined(from_t)
         typedef struct from {
                 uint64_t                id; 
                 bool                    is_bot;
