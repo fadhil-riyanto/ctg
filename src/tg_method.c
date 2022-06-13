@@ -144,3 +144,36 @@ returnreq:
         
         return getupdates_res;
 }
+
+void* send_message(ctg_utils_t *maindt, \
+        uint64_t chat_id, char *text,char *parse_mode, bool disable_web_page_preview) 
+{
+        key_value_t data_param[4];
+        chdata_t *ks;
+        char buff[5000];
+
+        char *chat_id_str = int_to_string_alloc(chat_id);
+
+        insert_key_value(data_param, "chat_id", chat_id_str); 
+	insert_key_value(data_param, "text", text);
+        insert_key_value(data_param, "parse_mode", parse_mode);
+        insert_key_value(data_param, "disable_web_page_preview", (disable_web_page_preview) ? "true" : "false");
+        
+        reset_count_key_value();
+
+        char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
+        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "send_message", urlparam);
+        
+        DEBUGP("url: %s\n", buff);
+returnreq:
+        ks = ch_init();
+        curl_req(ks, buff);
+
+        if(ks->curlerr == true) {
+                DEBUGP("%s", "curl error while getting data. trying again ... ");
+                goto returnreq;
+        }
+        
+        free(urlparam);
+        free(chat_id_str);
+}
