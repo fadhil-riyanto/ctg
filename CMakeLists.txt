@@ -17,5 +17,5 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
 ADD_LIBRARY(ctg_lib STATIC "${soure_library}")
 
 add_executable(ctg_src main.c)
-target_link_libraries(ctg_src ctg_lib curl json-c)
+target_link_libraries(ctg_src ctg_lib curl json-c pthread)
 set_target_properties(ctg_src PROPERTIES OUTPUT_NAME "ctgbot_telegram")
