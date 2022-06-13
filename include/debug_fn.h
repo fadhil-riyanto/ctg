@@ -89,4 +89,5 @@
  #define DEBUGW(fmt, args...)
  #define DEBUGR(fmt, args...)
  #define DEBUGE(fmt, args...)
+ #define DEBUGI(fmt, args...)
 #endif
