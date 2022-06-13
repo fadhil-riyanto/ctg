@@ -3,7 +3,7 @@ PROJECT(ctg)
 find_package( CURL )
 find_package( json-c )
 find_package( pthread )
-set(CMAKE_C_FLAGS_DEBUG "-Wall -Wextra")
+set(CMAKE_C_FLAGS_DEBUG "")
 set(CMAKE_C_COMPILER "clang")
 
 SET(soure_library
