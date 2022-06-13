@@ -162,7 +162,7 @@ void* send_message(ctg_utils_t *maindt, \
         reset_count_key_value();
 
         char *urlparam = http_build_query(data_param, sizeof(data_param) / sizeof(data_param[0]));
-        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "send_message", urlparam);
+        sprintf(buff, "https://api.telegram.org/bot%s/%s?%s", maindt->bot_token, "sendMessage", urlparam);
         
         DEBUGP("url: %s\n", buff);
 returnreq:

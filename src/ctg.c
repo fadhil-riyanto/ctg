@@ -16,8 +16,14 @@
 #include "tg_method.h"
 #include  <signal.h>
 #include "debug_fn.h"
+#include <stdbool.h>
 
 static volatile int want_exit = 0;
+
+struct pthread_args_addition {
+        tg_json_getupdates_t    *recv_data;
+        ctg_utils_t             *maindt;
+};
 
 void sig_callback()
 {
@@ -25,15 +31,16 @@ void sig_callback()
         want_exit = 1; // change status to 1
 }
 
-void *handle_update(tg_json_getupdates_t *recv_data) 
+void *handle_update(struct pthread_args_addition *paag) 
 {
         // handle acces revc_data after ctrl + c
         if(want_exit == 1) {
                 printf("%s\n", "exiting sub thread ... ");
                 pthread_exit(NULL);
         }else {
-                if(recv_data->update_id != NULL) {
-                        printf("[RECEIVED]  @%s wrote %s\n", recv_data->message.from.username, recv_data->message.text);
+                if(paag->recv_data->update_id != NULL) {
+                        send_message(paag->maindt, paag->recv_data->message.chat.id, "hello from ctg!!", "html", false);
+                        printf("[RECEIVED]  @%s wrote %s\n", paag->recv_data->message.from.username, paag->recv_data->message.text);
 
                 }
                 pthread_exit(NULL);
@@ -43,8 +50,11 @@ void *handle_update(tg_json_getupdates_t *recv_data)
 
 char *init(ctg_utils_t *maindt)
 {
-        tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t));;
+        tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t));
         pthread_t threads;
+        struct pthread_args_addition paag;
+        paag.maindt = maindt;
+        
 
         unsigned long int update_id = 0;
         signal(SIGINT, sig_callback);
@@ -58,10 +68,11 @@ char *init(ctg_utils_t *maindt)
                 } else {
                         data = get_updates(maindt, data, update_id, 1);
                         update_id = data->update_id + 1;
+                        paag.recv_data = data;
 
                         // create thread
                         
-                        pthread_create(&threads, NULL, (void*) handle_update, data);
+                        pthread_create(&threads, NULL, (void*) handle_update, &paag);
                 }
                 
 
