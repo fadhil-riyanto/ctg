@@ -9,6 +9,7 @@
 
 typedef struct ctg_utils  {
         char            *bot_token;
+        int             thread;
 } ctg_utils_t;
 
 char *init(ctg_utils_t *maindt);
