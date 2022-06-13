@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <errno.h>
 #include "ctg.h"
 #include "debug_fn.h"

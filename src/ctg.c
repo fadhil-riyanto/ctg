@@ -19,7 +19,7 @@
 
 static volatile int want_exit = 0;
 
-void sig_callback(int sig)
+void sig_callback()
 {
         want_exit = 1; // change status to 1
 }
@@ -32,7 +32,7 @@ void *handle_update(tg_json_getupdates_t *recv_data)
                 pthread_exit(NULL);
         }else {
                 if(recv_data->update_id != NULL) {
-                        printf("[RECEIVED] %s\n", recv_data->message.from.username);
+                        printf("[RECEIVED]  @%s wrote %s\n", recv_data->message.from.username, recv_data->message.text);
 
                 }
                 pthread_exit(NULL);
@@ -42,7 +42,7 @@ void *handle_update(tg_json_getupdates_t *recv_data)
 
 char *init(ctg_utils_t *maindt)
 {
-        tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t) * 9999);;
+        tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t));;
         pthread_t threads;
 
         unsigned long int update_id = 0;
@@ -58,7 +58,7 @@ char *init(ctg_utils_t *maindt)
 
                         // create thread
                         
-                        int rc = pthread_create(&threads, NULL, handle_update, data);
+                        pthread_create(&threads, NULL, (void*) handle_update, data);
                 }
                 
 
