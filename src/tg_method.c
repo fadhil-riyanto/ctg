@@ -118,7 +118,7 @@ returnreq:
         messagecl = json_object_object_get(index_null, "message");
         json_object *chatcl = json_object_object_get(messagecl, "chat");
         json_object *chat_id = json_object_object_get(chatcl, "id");
-        getupdates_res->message.chat.id = json_object_get_int64(chat_id);
+        getupdates_res->message.chat.id = (uint64_t)json_object_get_uint64(chat_id);
 
         /* get [root].message.chat.first_name */
         first_name = json_object_object_get(chatcl, "first_name");

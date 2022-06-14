@@ -7,8 +7,8 @@
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
-#ifndef _FETCHRES_H_
-#define _FETCHRES_H_
+#ifndef INCLUDE__FETCHRES_H_
+#define INCLUDE__FETCHRES_H_
 /* get updates */
 
 #include <stdbool.h>

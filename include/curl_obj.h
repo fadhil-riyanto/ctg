@@ -9,6 +9,10 @@
 
 #include <curl/curl.h>
 #include <stdbool.h>
+
+#ifndef INCLUDE__CURL_OBJ_H_
+#define INCLUDE__CURL_OBJ_H_
+
 #if !defined(CURL_MAX_BUFFER)
         #define CURL_MAX_BUFFER 20480  // blom kepake
 #endif
@@ -19,10 +23,9 @@
                size_t           size;
                bool             curlerr;
         } chdata_t;
-        
 #endif
-
 
 chdata_t* ch_init();
 void curl_req(chdata_t *ks, char *url);
+#endif
 

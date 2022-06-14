@@ -8,7 +8,6 @@
  */
 
 #include "curl_obj.h"
-#include "curl_fn.h"
 #include "debug_fn.h"
 #include <asm-generic/errno-base.h>
 #include <curl/curl.h>

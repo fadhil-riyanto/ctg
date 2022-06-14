@@ -7,6 +7,9 @@
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
+#ifndef INCLUDE__DEBUG_FN_H_
+#define INCLUDE__DEBUG_FN_H_
+
 #define BLK "\e[0;30m"
 #define RED "\e[0;31m"
 #define GRN "\e[0;32m"
@@ -65,7 +68,7 @@
 #define BHWHT "\e[1;97m"
 #define COLOR_RESET "\e[0m"
 
-#define DEBUG_LVL 3
+#define DEBUG_LVL 0
 
 #if defined(DEBUG_LVL) && DEBUG_LVL > 0
         #define DEBUGP(fmt, args...) fprintf(stderr, YEL "DEBUG" COLOR_RESET \
@@ -90,4 +93,5 @@
  #define DEBUGR(fmt, args...)
  #define DEBUGE(fmt, args...)
  #define DEBUGI(fmt, args...)
+#endif
 #endif

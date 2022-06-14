@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /*  
- *  test file: http_build_query.c
+ *  http_build_query.c
  *  Copyright (C) Fadhil Riyanto
  *
  *  https://github.com/fadhil-riyanto/ctg.git
  */
+
+#ifndef INCLUDE__KEY_VALUE_H_
+#define INCLUDE__KEY_VALUE_H_
 
 #include "fcntl.h"
 #include "limits.h"
@@ -25,3 +28,5 @@
 
 void insert_key_value(key_value_t *keyval, char *key, char *value);
 void reset_count_key_value();
+
+#endif

@@ -10,7 +10,6 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "curl_fn.h"
 #include "ctg.h"
 #include "curl_obj.h"
 #include "tg_method.h"
@@ -39,8 +38,11 @@ void *handle_update(struct pthread_args_addition *paag)
                 pthread_exit(NULL);
         }else {
                 if(paag->recv_data->update_id != NULL) {
-                        send_message(paag->maindt, paag->recv_data->message.chat.id, "hello from ctg!!", "html", false);
+                        
+                        printf("%lu", paag->recv_data->message.chat.id);
                         printf("[RECEIVED]  @%s wrote %s\n", paag->recv_data->message.from.username, paag->recv_data->message.text);
+                        printf("exec send message");
+                        send_message(paag->maindt, paag->recv_data->message.chat.id, "hello from ctg!!", "html", false);
 
                 }
                 pthread_exit(NULL);
@@ -70,34 +72,9 @@ char *init(ctg_utils_t *maindt)
                         update_id = data->update_id + 1;
                         paag.recv_data = data;
 
-                        // create thread
-                        
                         pthread_create(&threads, NULL, (void*) handle_update, &paag);
                 }
-                
-
-                // DEBUGW("data->update_id is %d\n", data->update_id);
-                
-                // DEBUGW("data->message.message_id is %d\n", data->message.message_id);
-                // DEBUGW("data->message.date is %lu\n", data->message.date);
-                // DEBUGW("data->message.text is %s\n", data->message.text);
-
-                // DEBUGW("data->message->from.id is %lu\n", data->message.from.id);
-                // DEBUGW("data->message->from.is_bot is %s\n", (data->message.from.is_bot) ? "true" : "false");
-                // DEBUGW("data->message->from.first_name is %s\n", data->message.from.first_name);
-                // DEBUGW("data->message->from.last_name is %s\n", data->message.from.last_name);
-                // DEBUGW("data->message->from.username is %s\n", data->message.from.username);
-                // DEBUGW("data->message->from.language_code is %s\n", data->message.from.language_code);
-
-                // DEBUGW("data->message->chat.id is %lu\n", data->message.chat.id);
-                // DEBUGW("data->message->chat.first_name is %s\n", data->message.chat.first_name);
-                // DEBUGW("data->message->chat.last_name is %s\n", data->message.chat.last_name);
-                // DEBUGW("data->message->chat.username is %s\n", data->message.chat.username);
-                // DEBUGW("data->message->chat.type is %s\n", data->message.chat.type);
-
-                
         }
-        //free(data);
         return "";
 
 }

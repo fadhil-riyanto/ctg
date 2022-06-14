@@ -44,30 +44,6 @@ char *urlencode(char *alloc, const char *s, size_t len, bool raw)
 
 	return start;
 }
-// char *http_build_query(key_value_t *data_arr_keyval, size_t len_arr)
-// {
-//         char *buffresd = (char*) malloc(sizeof(char) * 4094);
-// 	char *urlencodedata_key = (char*) malloc(sizeof(char) * 4094);
-// 	char *urlencodedata_value = (char*) malloc(sizeof(char) * 4094);
-//         buffresd[0] = '\0';
-// 	char temp[300];
-// 	char *data;
-// 	data = temp;
-//         for(int a = 0; a < len_arr; a++) {
-// 		urlencode(urlencodedata_key, data_arr_keyval[a].key, strlen(data_arr_keyval[a].key), false);
-// 		urlencode(urlencodedata_value, data_arr_keyval[a].value, strlen(data_arr_keyval[a].value), false);
-// 		if (a == (len_arr - 1)) {
-// 			sprintf(data, "%s=%s", urlencodedata_key, urlencodedata_value);
-// 			strcat(buffresd , data);
-// 		} else {
-// 			sprintf(data, "%s=%s&", urlencodedata_key, urlencodedata_value);
-// 			strcat(buffresd , data);
-// 	 	}
-//         }
-// 	free(urlencodedata_key);
-// 	free(urlencodedata_value);
-//         return buffresd;
-// }
 
 /*
  * thanks for om alviro iskandar
