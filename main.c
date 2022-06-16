@@ -32,5 +32,5 @@ int main(int argc, char *argv[])
         DEBUGI("bot token is %s\n", ctgu.bot_token);
 
         printf("%s", init(&ctgu));
-        curl_global_cleanup();
+        
 }

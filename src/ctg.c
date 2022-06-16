@@ -69,6 +69,7 @@ char *init(ctg_utils_t *maindt)
                         printf("%s\n", "exiting main thread ... ");
                         free(data);
                         pthread_join(threads, NULL);
+                        curl_global_cleanup();
                         exit(0);
                 } else {
                         data = get_updates(maindt, data, update_id, 1);
