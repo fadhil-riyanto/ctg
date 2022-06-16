@@ -30,7 +30,7 @@
 /* get message->chat */
 #if !defined(chat) || !defined(chat_t)
         typedef struct chat {
-                int64_t                id;
+                int64_t                 id;
                 const char              *first_name;
                 const char              *last_name;
                 const char              *username;
@@ -38,6 +38,43 @@
         } chat_t ;
 #endif
 
+/* get message->sticker->thumb */
+#if !defined(thumb) || !defined(thumb_t)
+        typedef struct thumb {
+                const char              *file_id;
+                const char              *file_unique_id;
+                int                     file_size;
+                int                     width;
+                int                     height;
+        } thumb_t;
+#endif
+
+/* get message->sticker */
+#if !defined(sticker) || !defined(sticker_t)
+        typedef struct sticker {
+                int                     width;
+                int                     height;
+                const char              *emoji;
+                const char              *set_name;
+                bool                    is_animated;
+                bool                    is_video;
+                thumb_t                 thumb;
+                const char              *file_id;
+                const char              *file_unique_id;
+                int                     file_size;
+        } sticker_t;
+#endif
+
+
+/* get message->entities */
+#if !defined(entities) || !defined(entities_t)
+        typedef struct entities {
+                int                     offset;
+                int64_t                 length;
+                const char              *type;
+        } entities_t;
+
+#endif
 
 /* get message */
 #if !defined(message) || !defined(message_t)
@@ -47,6 +84,8 @@
                 chat_t                  chat;
                 uint64_t                date;
                 const char              *text;
+                entities_t              entities[];
+
         } message_t ;
 #endif
 
