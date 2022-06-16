@@ -12,6 +12,7 @@
 #include "utils.c"
 #include "stdlib.h"
 #include <json-c/json_object.h>
+#include <json-c/json_types.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,6 +87,26 @@ returnreq:
         
         json_object *text = json_object_object_get(messagecl, "text");
         getupdates_res->message.text = json_object_get_string(text);
+
+        /* get [root].message.entities[] */
+        json_object *entities = json_object_object_get(messagecl, "entities");
+        if(entities != NULL) {
+                getupdates_res->message.entities[0].offset = 9;
+                for (int i = 0; i < json_object_array_length(entities); i++) {
+                        // get offset
+                        json_object *entities_arr = json_object_array_get_idx(entities, i);
+                        json_object *offset = json_object_object_get(entities_arr, "offset");
+                        getupdates_res->message.entities[i].offset = json_object_get_int(offset);
+
+                        // get limit
+                        json_object *length = json_object_object_get(entities_arr, "length");
+                        getupdates_res->message.entities[i].length = json_object_get_int(length);
+
+                        // get type
+                        json_object *type = json_object_object_get(entities_arr, "type");
+                        getupdates_res->message.entities[i].type = json_object_get_string(type);
+                }
+        }
 
         /* get [root].message.from.id */
         messagecl = json_object_object_get(index_null, "message");
