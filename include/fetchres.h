@@ -70,7 +70,7 @@
 #if !defined(entities) || !defined(entities_t)
         typedef struct entities {
                 int                     offset;
-                int64_t                 length;
+                int                     length;
                 const char              *type;
         } entities_t;
 
