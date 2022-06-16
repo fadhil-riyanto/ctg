@@ -18,7 +18,7 @@
 /* get message->from */
 #if !defined(from) || !defined(from_t)
         typedef struct from {
-                uint64_t                id; 
+                int64_t                 id; 
                 bool                    is_bot;
                 const char              *first_name;
                 const char              *last_name;
@@ -30,7 +30,7 @@
 /* get message->chat */
 #if !defined(chat) || !defined(chat_t)
         typedef struct chat {
-                uint64_t                id;
+                int64_t                id;
                 const char              *first_name;
                 const char              *last_name;
                 const char              *username;
