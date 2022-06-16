@@ -83,6 +83,7 @@
                 from_t                  from;
                 chat_t                  chat;
                 uint64_t                date;
+                sticker_t               sticker;
                 const char              *text;
                 entities_t              entities[100]; // max 100 in telegram
 
