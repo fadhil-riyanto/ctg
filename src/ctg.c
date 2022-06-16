@@ -16,6 +16,7 @@
 #include  <signal.h>
 #include "debug_fn.h"
 #include <stdbool.h>
+#include <inttypes.h>
 
 static volatile int want_exit = 0;
 
@@ -39,10 +40,11 @@ void *handle_update(struct pthread_args_addition *paag)
         }else {
                 if(paag->recv_data->update_id != NULL) {
                         
-                        printf("%lu", paag->recv_data->message.chat.id);
+                        printf("%lld", (long long)paag->recv_data->message.chat.id);
+                        //printf("%" PRIu64 "\n", paag->recv_data->message.chat.id);
                         printf("[RECEIVED]  @%s wrote %s\n", paag->recv_data->message.from.username, paag->recv_data->message.text);
-                        printf("exec send message");
-                        send_message(paag->maindt, paag->recv_data->message.chat.id, "hello from ctg!!", "html", false);
+                        // printf("exec send message");
+                        send_message(paag->maindt, paag->recv_data->message.chat.id, "test !!", "html", false);
 
                 }
                 pthread_exit(NULL);
@@ -76,6 +78,5 @@ char *init(ctg_utils_t *maindt)
                 }
         }
         return "";
-
 }
 
