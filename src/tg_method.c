@@ -151,10 +151,11 @@ void* send_message(ctg_utils_t *maindt, \
         key_value_t data_param[4];
         chdata_t *ks;
         char buff[5000];
+        char strbuff[100];
 
-        char *chat_id_str = int_to_string_alloc(chat_id);
+        i64toa(strbuff, chat_id);
 
-        insert_key_value(data_param, "chat_id", chat_id_str); 
+        insert_key_value(data_param, "chat_id", strbuff); 
 	insert_key_value(data_param, "text", text);
         insert_key_value(data_param, "parse_mode", parse_mode);
         insert_key_value(data_param, "disable_web_page_preview", (disable_web_page_preview) ? "true" : "false");
@@ -175,5 +176,4 @@ returnreq:
         }
         
         free(urlparam);
-        free(chat_id_str);
 }

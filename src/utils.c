@@ -9,6 +9,16 @@
 
 #include <string.h>
 #include <limits.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <inttypes.h>
+
+
+void i64toa(char *buf, u_int64_t data) 
+{
+        sprintf(buf, "%" PRId64, data);
+}
+
 #define INT_DECIMAL_STRING_SIZE(int_type) ((CHAR_BIT*sizeof(int_type)-1)*10/33+3)
 
 char *int_to_string_alloc(int x) {
