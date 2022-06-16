@@ -108,6 +108,47 @@ returnreq:
                 }
         }
 
+        /* get [root].message.sticker */
+        json_object *sticker = json_object_object_get(messagecl, "sticker");
+        
+        // get width
+        json_object *sticker_width = json_object_object_get(sticker, "width");
+        getupdates_res->message.sticker.width = json_object_get_int(sticker_width);
+
+        // get height
+        json_object *sticker_height = json_object_object_get(sticker, "height");
+        getupdates_res->message.sticker.height = json_object_get_int(sticker_height);
+
+        // get emoji
+        json_object *sticker_emoji = json_object_object_get(sticker, "emoji");
+        getupdates_res->message.sticker.emoji = json_object_get_string(sticker_emoji);
+
+        // get set_name
+        json_object *sticker_set_name = json_object_object_get(sticker, "set_name");
+        getupdates_res->message.sticker.set_name = json_object_get_string(sticker_set_name);
+
+        // get is_animated
+        json_object *sticker_is_animated = json_object_object_get(sticker, "is_animated");
+        getupdates_res->message.sticker.is_animated = json_object_get_boolean(sticker_is_animated);
+
+        // get is_video
+        json_object *sticker_is_video = json_object_object_get(sticker, "is_video");
+        getupdates_res->message.sticker.is_video = json_object_get_boolean(sticker_is_video);
+
+        // thumb here
+
+        // get file_id
+        json_object *sticker_file_id = json_object_object_get(sticker, "file_id");
+        getupdates_res->message.sticker.file_id = json_object_get_string(sticker_file_id);
+
+        // get file_unique_id
+        json_object *sticker_file_unique_id = json_object_object_get(sticker, "file_unique_id");
+        getupdates_res->message.sticker.file_unique_id = json_object_get_string(sticker_file_unique_id);
+
+        // get file_size
+        json_object *sticker_file_size = json_object_object_get(sticker, "file_size");
+        getupdates_res->message.sticker.file_size = json_object_get_int(sticker_file_size);
+
         /* get [root].message.from.id */
         messagecl = json_object_object_get(index_null, "message");
         json_object *fromcl = json_object_object_get(messagecl, "from");

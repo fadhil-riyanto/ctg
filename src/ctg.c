@@ -39,12 +39,12 @@ void *handle_update(struct pthread_args_addition *paag)
                 pthread_exit(NULL);
         }else {
                 if(paag->recv_data->update_id != NULL) {
-                        char buff[100];
+                        char buff[4096];
                         printf("%lld", (long long)paag->recv_data->message.chat.id);
                         //printf("%" PRIu64 "\n", paag->recv_data->message.chat.id);
                         printf("[RECEIVED]  @%s wrote %s\n", paag->recv_data->message.from.username, paag->recv_data->message.text);
                         // printf("exec send message");
-                        sprintf(buff, "tipe entity index 0 adalah %s", paag->recv_data->message.entities[0].type);
+                        sprintf(buff, "set_name %s", paag->recv_data->message.sticker.set_name);
                         send_message(paag->maindt, paag->recv_data->message.chat.id, buff, "html", false);
 
                 }
