@@ -62,7 +62,7 @@ char *init(ctg_utils_t *maindt)
         void *thread_status;
         int thread_status_join;
         unsigned long int update_id = 0;
-        pthread_t thread_alloc[100];
+        pthread_t thread_alloc[maindt->thread];
         struct pthread_args_addition paag;
 
         tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t));
@@ -82,17 +82,19 @@ char *init(ctg_utils_t *maindt)
                         curl_global_cleanup();
                         exit(0);
                 } else {
-                        if(pthread_counter > 100) {
+                        if(pthread_counter > maindt->thread) {
                                 printf("%s", "joining old thread");
-                                for(int pp = 0; pp < 100; pp++) {
+                                for(int pp = 0; pp < maindt->thread; pp++) {
                                         thread_status_join = pthread_join(thread_alloc[pp], &thread_status);
                                         if(thread_status_join) {
-                                                printf("error, pthread_join %d return code %d", pp, thread_status_join);
+                                                printf("error, pthread_join %d return code %d\n", pp, thread_status_join);
                                                 printf("%s\n", "exiting main thread ... ");
                                                 free(data);
                                                 curl_global_cleanup();
                                                 exit(-1);
-                                        } 
+                                        } else {
+                                                printf("thread %d resetted!\n", pp);
+                                        }
                                 }
                                 pthread_counter = 0;
 
