@@ -63,8 +63,21 @@ returnreq:
         json_object *index_null;
         json_object *is_ok = json_object_object_get(raw, "ok");
         if(json_object_get_boolean(is_ok) != true) {
-                DEBUGE("%s\n", "telegram result returned false");
-                exit(1);
+                json_object *error_code = json_object_object_get(raw, "error_code");
+                if(json_object_get_int(error_code)  == 429) {
+                        json_object *retry_after = json_object_object_get(raw, "retry_after");
+                        sleep(json_object_get_int(retry_after));
+                } else {
+                        DEBUGE("%s\n", "telegram result returned false");
+                        DEBUGE("full result: %s\n", ks->data);
+                        json_object_put(raw);
+
+                        free(ks->data);
+                        curl_easy_cleanup(ks->ch);
+                        free(ks);
+                        exit(1);
+                }
+                
         } 
         
 
@@ -201,7 +214,6 @@ returnreq:
         getupdates_res->message.chat.type = json_object_get_string(type);
 
         json_object_put(raw);
-
         free(ks->data);
         curl_easy_cleanup(ks->ch);
         free(ks);
