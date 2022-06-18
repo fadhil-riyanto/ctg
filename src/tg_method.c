@@ -21,6 +21,7 @@
 #include "ctg.h"
 #include "http_func.h"
 #include <math.h>
+#include <unistd.h>
 
 /* debug */
 #include "debug_fn.h"
@@ -49,6 +50,7 @@ returnreq:
 
         if(ks->curlerr == true) {
                 DEBUGP("%s", "curl error while getting data. trying again ... ");
+                sleep(1);
                 goto returnreq;
         }
         
