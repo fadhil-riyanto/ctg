@@ -3,7 +3,7 @@ PROJECT(ctg)
 find_package( CURL )
 find_package( json-c )
 find_package( pthread )
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ggdb3 -O3 -fsanitize=address")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 
 SET(soure_library
     src/ctg.c
