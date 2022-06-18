@@ -17,6 +17,7 @@
 #include "debug_fn.h"
 #include <stdbool.h>
 #include <inttypes.h>
+#include <string.h>
 
 static volatile int want_exit = 0;
 
@@ -33,19 +34,21 @@ void sig_callback()
 
 void *handle_update(struct pthread_args_addition *paag) 
 {
+        struct pthread_args_addition paag_thread_copy;
+        paag_thread_copy = *paag;
+
         // handle acces revc_data after ctrl + c
         if(want_exit == 1) {
                 printf("%s\n", "exiting sub thread ... ");
                 pthread_exit(NULL);
         }else {
-                if(paag->recv_data->update_id != NULL) {
+                if(paag_thread_copy.recv_data->update_id != NULL) {
                         char buff[4096];
-                        printf("%lld", (long long)paag->recv_data->message.chat.id);
-                        //printf("%" PRIu64 "\n", paag->recv_data->message.chat.id);
-                        printf("[RECEIVED]  @%s wrote %s\n", paag->recv_data->message.from.username, paag->recv_data->message.text);
-                        // printf("exec send message");
-                        sprintf(buff, "set_name %s", paag->recv_data->message.sticker.set_name);
-                        send_message(paag->maindt, paag->recv_data->message.chat.id, paag->recv_data->message.message_id, buff, "html", false);
+                        printf("[RECEIVED]  @%s wrote %s\n", \
+                                paag_thread_copy.recv_data->message.from.username, \
+                                paag_thread_copy.recv_data->message.text);
+                        // sprintf(buff, "set_name %s", paag_thread_copy.recv_data->message.sticker.set_name);
+                        // send_message(paag_thread_copy.maindt, paag_thread_copy.recv_data->message.chat.id, paag_thread_copy.recv_data->message.message_id, buff, "html", false);
 
                 }
                 pthread_exit(NULL);
@@ -55,30 +58,54 @@ void *handle_update(struct pthread_args_addition *paag)
 
 char *init(ctg_utils_t *maindt)
 {
-        tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t));
-        pthread_t threads;
+        static volatile int pthread_counter = 0;
+        void *thread_status;
+        int thread_status_join;
+        unsigned long int update_id = 0;
+        pthread_t thread_alloc[100];
         struct pthread_args_addition paag;
+
+        tg_json_getupdates_t *data = malloc(sizeof(tg_json_getupdates_t));
         paag.maindt = maindt;
         
-
-        unsigned long int update_id = 0;
         signal(SIGINT, sig_callback);
 
         for(;;) {
                 if(want_exit == 1) {
                         printf("%s\n", "exiting main thread ... ");
                         free(data);
-                        pthread_join(threads, NULL);
+                        for(int ii = 0; ii < pthread_counter; ii++) {
+                                pthread_join(thread_alloc[ii], NULL);
+                                printf("thread %d has been joined\n", ii);
+                        }
+                        
                         curl_global_cleanup();
                         exit(0);
                 } else {
+                        if(pthread_counter > 100) {
+                                printf("%s", "joining old thread");
+                                for(int pp = 0; pp < 100; pp++) {
+                                        thread_status_join = pthread_join(thread_alloc[pp], &thread_status);
+                                        if(thread_status_join) {
+                                                printf("error, pthread_join %d return code %d", pp, thread_status_join);
+                                                printf("%s\n", "exiting main thread ... ");
+                                                free(data);
+                                                curl_global_cleanup();
+                                                exit(-1);
+                                        } 
+                                }
+                                pthread_counter = 0;
+
+                        }
                         data = get_updates(maindt, data, update_id, 1);
                         update_id = data->update_id + 1;
                         paag.recv_data = data;
 
+                        
                         //printf("val :%d\n", data->message.entities[0].offset);
 
-                        pthread_create(&threads, NULL, (void*) handle_update, &paag);
+                        pthread_create(&thread_alloc[pthread_counter], NULL, (void*) handle_update, &paag);
+                        pthread_counter += 1;
                 }
         }
         return "";
