@@ -47,8 +47,14 @@ void *handle_update(struct pthread_args_addition *paag)
                         printf("[RECEIVED]  @%s wrote %s\n", \
                                 paag_thread_copy.recv_data->message.from.username, \
                                 paag_thread_copy.recv_data->message.text);
-                        // sprintf(buff, "set_name %s", paag_thread_copy.recv_data->message.sticker.set_name);
-                        // send_message(paag_thread_copy.maindt, paag_thread_copy.recv_data->message.chat.id, paag_thread_copy.recv_data->message.message_id, buff, "html", false);
+                        sprintf(buff, "set_name %s", paag_thread_copy.recv_data->message.sticker.set_name);
+                        send_message(
+                                paag_thread_copy.maindt, 
+                                paag_thread_copy.recv_data->message.chat.id, 
+                                paag_thread_copy.recv_data->message.message_id, 
+                                buff, 
+                                "html", false
+                        );
 
                 }
                 pthread_exit(NULL);

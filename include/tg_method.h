@@ -21,6 +21,7 @@ void* send_message(ctg_utils_t *maindt, \
         char            *text,     \
         char            *parse_mode,     \
         bool            disable_web_page_preview
+        
 );
 
 #endif

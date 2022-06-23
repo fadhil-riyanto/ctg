@@ -11,9 +11,11 @@
 #define INCLUDE__FETCHRES_H_
 /* get updates */
 
+#include <cstdint>
 #include <stdbool.h>
 #include <stdint.h>
 /* not accesed by other */
+/* can use as global types */
 
 /* get message->from */
 #if !defined(from) || !defined(from_t)
@@ -90,7 +92,6 @@
         } message_t ;
 #endif
 
-
 /* end */
 
 #if !defined(tg_json_getupdates_t) || !defined(tg_json_getupdates)
@@ -99,4 +100,33 @@
                 int                     update_id;
         } tg_json_getupdates_t ;
 #endif
+
+
+/*
+ * for json response
+ * only can accesed from main struct
+ */
+
+struct from_res {
+        int64_t                 id;
+        bool                    is_bot;
+        const char              *first_name;
+        const char              *username;
+};
+struct chat_res {
+        int64_t                 id;
+        const char              *first_name;
+        const char              *username;
+        const char              *type;
+};
+
+typedef struct tg_json_res {
+        struct from_res         message;
+        struct chat_res         chat;
+        int64_t                 date;
+        int                     update_id;
+} tg_json_res_t ;
+
+
+
 #endif
