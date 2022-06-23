@@ -65,12 +65,18 @@ int split(char *string, char del, void (*cb)(char *data))
 
 
         // get last offset
-        // for (int i = last_offset; i < strlen(string); i++) {
-        //         // literating incerement for detect \0
-        //         if (string[i] != '\0') {
-        //                 printf("data : %c\n", string[i]);
-        //         }
-        // }
+        for (int i = last_offset; i < strlen(string); i++) {
+                // literating incerement for detect \0
+                if (string[i] != '\0' && string[i] != ' ') {
+                        temp[len] = string[i];
+                        len += 1;
+                }
+        }
+        cb(temp);
+        for(int rr = 0; rr < strlen(string); rr++) {
+                temp[rr] = 0;
+        }
+        len = 0;
         // total_split_len += 1;
         //printf("%d\n", total_split_len);
         
