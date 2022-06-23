@@ -67,7 +67,7 @@ int split(char *string, char del, void (*cb)(char *data))
         // get last offset
         for (int i = last_offset; i < strlen(string); i++) {
                 // literating incerement for detect \0
-                if (string[i] != '\0' && string[i] != ' ') {
+                if (string[i] != '\0' && string[i] != del) {
                         temp[len] = string[i];
                         len += 1;
                 }
@@ -83,8 +83,11 @@ int split(char *string, char del, void (*cb)(char *data))
 }
 int main() 
 {
-        char *data = "hai ke ma kaww heh ao";
-        split(data, ' ', &callback);
+        // char *data = "hai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh aohai ke ma kaww heh ao";
+        // split(data, ' ', &callback);
+
+        char *data2 = "hai,haie,owww,yeff,pad,hil,s";
+        split(data2, ',', &callback);
         // for(int a = 5; a > 0; a--) {
         //         printf("%d", a);
         // }
