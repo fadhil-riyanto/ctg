@@ -222,17 +222,23 @@ returnreq:
 }
 
 void* send_message(ctg_utils_t *maindt, \
-        int64_t chat_id, char *text, int reply_to_message_id, char *parse_mode, bool disable_web_page_preview) 
-{
+        uint64_t        chat_id,   \
+        int             reply_to_message_id,\
+        char            *text,     \
+        char            *parse_mode,     \
+        bool            disable_web_page_preview
+){
         key_value_t data_param[5];
         chdata_t *ks;
         char buff[5000];
-        char strbuff[100];
+        char strbuff_chat_id[100];
+        char strbuff_reply_to_message_id[100];
 
-        i64toa(strbuff, chat_id);
+        i64toa(strbuff_chat_id, chat_id);
+        i64toa(strbuff_reply_to_message_id, reply_to_message_id);
 
-        insert_key_value(data_param, "chat_id", strbuff); 
-        //insert_key_value(data_param, "reply_to_message_id", )
+        insert_key_value(data_param, "chat_id", strbuff_chat_id); 
+        insert_key_value(data_param, "reply_to_message_id", strbuff_reply_to_message_id);
 	insert_key_value(data_param, "text", text);
         insert_key_value(data_param, "parse_mode", parse_mode);
         insert_key_value(data_param, "disable_web_page_preview", (disable_web_page_preview) ? "true" : "false");
