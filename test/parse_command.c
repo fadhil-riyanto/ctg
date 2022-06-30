@@ -4,13 +4,47 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void callback(char *data)
-{
-        printf("%s\n", data);
+char* delete_index1(char *string) {
+        int last_offset = 0, looplen = 0, total_split_len = 0; 
+        char *init = "";
+        int len = strlen(init);
+        char *alive_string = malloc(sizeof(char) * strlen(string));
+
+        char ress[strlen(string) + 1];
+
+        int literate = 0;
+        int literatechar = 0;
+        for (int i = 0; i < strlen(string); i++) {
+                if (string[i] == ' ') {
+                        if (literate == 0) {
+                                char tempchar[strlen(string)];
+                                char *rawcstring = string;
+                                int cint_count_string = 0;
+                                for(; *rawcstring; *rawcstring++) {
+                                        tempchar[cint_count_string] = *rawcstring;
+                                        cint_count_string += 1;
+                                }
+                                tempchar[cint_count_string] = '\0';
+                                for(int a = 0; a <= strlen(string); a++) {
+                                        tempchar[a] = tempchar[ ( a + 1) + i];
+                                }
+                                strcpy(alive_string, tempchar);
+                                return alive_string;
+                        }
+                        literate += 1;
+                } 
+                literatechar += 1;
+        }
+        if (literatechar == strlen(string)) {
+                if (literate == 0) {
+                        return string;
+                }
+                
+        }
 }
 
 char* split(char *string, char del, int offset, int *len_all, bool get_len) {
-        int last_offset = 0, looplen = 0, total_split_len = 0;
+        int last_offset = 0, looplen = 0, total_split_len = 0; 
         char *init = "";
         int len = strlen(init);
         char *temp = malloc(sizeof(char) * strlen(string));
@@ -48,25 +82,88 @@ char* split(char *string, char del, int offset, int *len_all, bool get_len) {
         }
 
         len = 0;
-        looplen += 1;
         *len_all = looplen;
+        looplen += 1;
+        
         return temp;
+}
+
+// different context
+typedef struct {
+        char *command;
+        char *content;
+        int offset;
+} parse_command_res_t;
+
+parse_command_res_t parse(char *botusername, char *raw)
+{
+        parse_command_res_t rawres;
+        char rawchar[strlen(raw)];
+        char *rawc = raw;
+        bool bot_own;
+
+        int cint_count = 0;
+        for(; *raw; *raw++) {
+                rawchar[cint_count] = *raw;
+                cint_count += 1;
+        }
+        rawchar[cint_count] = '\0';
+        if(rawchar[0] == '/') {
+                printf("%s\n", "is command");
+                int total;
+                char *datasplit = split(rawc, ' ', 0, &total, false);
+                free(split(datasplit, '@', 0, &total, true));
+
+                char *bot_username_command = split(datasplit, '@', 1, &total, true);
+                if (total >= 1 && (strcmp(botusername, bot_username_command) == 0)) {
+                        bot_own = true;
+                } else {
+                        bot_own = false;
+                }
+
+                if (bot_own == true) {
+                        printf("%s\n", "bot kita");
+                }
+
+
+                
+                printf("%s\n", bot_username_command);
+                printf("%s\n", botusername);
+                printf("%d", strcmp(botusername, bot_username_command));
+                // if (total == 1 && strcmp(bot_username_command, bot_username_command)) {
+                //         bot_own = true;
+                // }
+                // printf("%s", strcmp(botusername, bot_username_command) ? "true" : "false");
+                // free(split(raw, ' ', 0, &total, true));
+                // for (int i = 0; i < total; i++) {
+                //         split(raw, ' ', i, &total, false);
+                // }
+        }
+
+        // int total;
+        // free(split(raw, ' ', 5, &total, true));
+
+        // for (int i = 0; i < total; i++) {
+
+        // }
+
 }
 int main() 
 {
         char *data2 = "hai,haie,owww,yeff,pad,hil,s";
         int total = 0;
 
-        /* params
-        * 1. string source
-        * 2. delimiter
-        * 3. target index
-        * 4. temp variable for saving total of length
-        * 5. bool for skip checking length, set true for get actual length
-        */
-        char *data = split(data2, ',', 5, &total, false);
-        printf("%d\n", total);
-        printf("%s", data);
-        free(data);
+        // /* params
+        // * 1. string source
+        // * 2. delimiter
+        // * 3. target index
+        // * 4. temp variable for saving total of length
+        // * 5. bool for skip checking length, set true for get actual length
+        // */
+        // char *data = split(data2, ',', 7, &total, true);
+        // printf("%d\n", total);
+        // printf("%s", data);
+        // free(data);
+        char *command = "/test@fadhil_riyanto_bot bot k";
+        parse("fadhil_riyanto_bot", command);
 }
-
