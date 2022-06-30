@@ -44,7 +44,7 @@ char* delete_index1(char *string) {
 }
 int main() {
         // char *data = delete_index1("ppppp aaaaaaa a aa");
-        char *res = delete_index1("🤣testcommand");
+        char *res = delete_index1("/test@fadhil_riyanto_bot bot k");
         printf("\"%s\"\n", res);
         // delete_index1("test command 2");
         // delete_index1("/test tes2t ok cstr");
