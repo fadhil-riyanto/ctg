@@ -5,9 +5,9 @@
 #include <stdbool.h>
 
 char* delete_index1(char *string) {
+
+        
         int last_offset = 0, looplen = 0, total_split_len = 0; 
-        char *init = "";
-        int len = strlen(init);
         char *alive_string = malloc(sizeof(char) * strlen(string));
 
         char ress[strlen(string) + 1];
@@ -128,7 +128,27 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
 
                         // get command
                         char *commandbot = split(datasplit, '@', 0, &total, false);
-                        retparse->command = commandbot;
+
+                        // convert to char[]
+                        char tempchar[strlen(commandbot)];
+                        char *rawcstring = commandbot;
+                        int cint_count_string = 0;
+                        for(; *rawcstring; *rawcstring++) {
+                                tempchar[cint_count_string] = *rawcstring;
+                                cint_count_string += 1;
+                        }
+                        tempchar[cint_count_string] = '\0';
+                      
+
+                        // delete slash
+                        char data[strlen(commandbot)];
+                        for(int i = 0; i <= strlen(data); i++) {
+                                data[i] = tempchar[i+1];
+                        }
+
+                        char *alive_command = malloc(sizeof(char) * strlen(commandbot) - 1);
+                        strcpy(alive_command, data);
+                        retparse->command = alive_command;
                 }
 
 
