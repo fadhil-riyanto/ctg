@@ -92,12 +92,11 @@ char* split(char *string, char del, int offset, int *len_all, bool get_len) {
 typedef struct {
         char *command;
         char *content;
-        int offset;
 } parse_command_res_t;
 
-parse_command_res_t parse(char *botusername, char *raw)
+void parse(char *botusername, char *raw, parse_command_res_t *retparse)
 {
-        parse_command_res_t rawres;
+        
         char rawchar[strlen(raw)];
         char *rawc = raw;
         bool bot_own;
@@ -122,7 +121,7 @@ parse_command_res_t parse(char *botusername, char *raw)
                 }
 
                 if (bot_own == true) {
-                        printf("%s\n", "bot kita");
+                        retparse->content
                 }
 
 
@@ -164,6 +163,7 @@ int main()
         // printf("%d\n", total);
         // printf("%s", data);
         // free(data);
+        parse_command_res_t rawres;
         char *command = "/test@fadhil_riyanto_bot bot k";
-        parse("fadhil_riyanto_bot", command);
+        parse("fadhil_riyanto_bot", command, &rawres);
 }
