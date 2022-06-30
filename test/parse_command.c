@@ -120,15 +120,22 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
                         bot_own = false;
                 }
 
-                if (bot_own == true) {
-                        retparse->content
+                if (bot_own == true) { 
+                        // get content
+                        char *rescrop = delete_index1(rawc);
+                        printf("raw: %s\n", rawc);
+                        retparse->content = rescrop;
+
+                        // get command
+                        char *commandbot = split(datasplit, '@', 0, &total, false);
+                        retparse->command = commandbot;
                 }
 
 
                 
-                printf("%s\n", bot_username_command);
-                printf("%s\n", botusername);
-                printf("%d", strcmp(botusername, bot_username_command));
+                // printf("%s\n", bot_username_command);
+                // printf("%s\n", botusername);
+                // printf("%d", strcmp(botusername, bot_username_command));
                 // if (total == 1 && strcmp(bot_username_command, bot_username_command)) {
                 //         bot_own = true;
                 // }
@@ -166,4 +173,7 @@ int main()
         parse_command_res_t rawres;
         char *command = "/test@fadhil_riyanto_bot bot k";
         parse("fadhil_riyanto_bot", command, &rawres);
+
+        printf("content : %s\n", rawres.content);
+        printf("command : %s\n", rawres.command);
 }
