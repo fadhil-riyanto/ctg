@@ -61,7 +61,7 @@ char* split(char *string, char del, int offset, int *len_all, bool get_len) {
                                         len += 1;
                                 }
                         }
-                        temp[len] = '\0';
+                        
                         if (get_len != true) {
                                 if (looplen == offset) {
                                         *len_all = looplen;
@@ -71,6 +71,7 @@ char* split(char *string, char del, int offset, int *len_all, bool get_len) {
                         for(int rr = 0; rr < strlen(string); rr++) {
                                 temp[rr] = 0;
                         }
+                        temp[len] = '\0';
                         len = 0;
                         looplen += 1;
                         last_offset = i;
@@ -113,19 +114,22 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
         if(rawchar[0] == '/') {
                 printf("%s\n", "is command");
                 int total;
-                printf("data > \"%s\"\n", rawc);
+                //printf("data > \"%s\"\n", rawc);
                 char *datasplit = split(rawc, ' ', 0, &total, false);
-                printf("data > %s\n", datasplit);
-                free(split(datasplit, '@', 0, &total, true));
+                //printf("data > %s\n", datasplit);
+                
+                // split(datasplit, '@', 0, &total, true);
+                
                 
                 char *bot_username_command = split(datasplit, '@', 1, &total, true);
-                
+                //printf("bool > %s\n", bot_username_command);
+                printf("bool > %s\n", bot_username_command);
                 if (total >= 1 && (strcmp(botusername, bot_username_command) == 0)) {
                         bot_own = true;
                 } else {
                         bot_own = false;
                 }
-                //printf("bool > %s\n", bot_own ? "true" : "false");
+                
                 
 
                 if (bot_own == true) { 
