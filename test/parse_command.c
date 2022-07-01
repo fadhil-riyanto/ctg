@@ -5,6 +5,8 @@
 #include <stdbool.h>
 
 char* delete_index1(char *string) {
+
+        
         int last_offset = 0, looplen = 0, total_split_len = 0; 
         char *alive_string = malloc(sizeof(char) * strlen(string));
 
@@ -59,6 +61,7 @@ char* split(char *string, char del, int offset, int *len_all, bool get_len) {
                                         len += 1;
                                 }
                         }
+                        temp[len] = '\0';
                         if (get_len != true) {
                                 if (looplen == offset) {
                                         *len_all = looplen;
@@ -79,6 +82,7 @@ char* split(char *string, char del, int offset, int *len_all, bool get_len) {
                         len += 1;
                 }
         }
+        temp[len] = '\0';
 
         len = 0;
         *len_all = looplen;
@@ -109,15 +113,20 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
         if(rawchar[0] == '/') {
                 printf("%s\n", "is command");
                 int total;
+                printf("data > \"%s\"\n", rawc);
                 char *datasplit = split(rawc, ' ', 0, &total, false);
+                printf("data > %s\n", datasplit);
                 free(split(datasplit, '@', 0, &total, true));
-
+                
                 char *bot_username_command = split(datasplit, '@', 1, &total, true);
+                
                 if (total >= 1 && (strcmp(botusername, bot_username_command) == 0)) {
                         bot_own = true;
                 } else {
                         bot_own = false;
                 }
+                //printf("bool > %s\n", bot_own ? "true" : "false");
+                
 
                 if (bot_own == true) { 
                         // get content
@@ -137,7 +146,7 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
                                 cint_count_string += 1;
                         }
                         tempchar[cint_count_string] = '\0';
-                      
+
 
                         // delete slash
                         char data[strlen(commandbot)];
@@ -190,22 +199,9 @@ void parse_cleanup(parse_command_res_t *retparse)
 
 int main() 
 {
-        char *data2 = "hai,haie,owww,yeff,pad,hil,s";
-        int total = 0;
 
-        // /* params
-        // * 1. string source
-        // * 2. delimiter
-        // * 3. target index
-        // * 4. temp variable for saving total of length
-        // * 5. bool for skip checking length, set true for get actual length
-        // */
-        // char *data = split(data2, ',', 7, &total, true);
-        // printf("%d\n", total);
-        // printf("%s", data);
-        // free(data);
         parse_command_res_t rawres;
-        char *command = "/test@fadhil_riyanto_bot bot k";
+        char *command = "/test@fadhil_riyanto_bot";
         parse("fadhil_riyanto_bot", command, &rawres);
 
         printf("content : %s\n", rawres.content);
