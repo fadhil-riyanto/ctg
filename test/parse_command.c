@@ -5,8 +5,6 @@
 #include <stdbool.h>
 
 char* delete_index1(char *string) {
-
-        
         int last_offset = 0, looplen = 0, total_split_len = 0; 
         char *alive_string = malloc(sizeof(char) * strlen(string));
 
@@ -37,7 +35,8 @@ char* delete_index1(char *string) {
         }
         if (literatechar == strlen(string)) {
                 if (literate == 0) {
-                        return string;
+                        strcpy(alive_string, string);
+                        return alive_string;
                 }
                 
         }
@@ -149,7 +148,14 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
                         char *alive_command = malloc(sizeof(char) * strlen(commandbot) - 1);
                         strcpy(alive_command, data);
                         retparse->command = alive_command;
+                        // free(rescrop);
+                        free(commandbot);
+                        // free(alive_command);
+
                 }
+                free(datasplit);
+                free(bot_username_command);
+                
 
 
                 
@@ -172,8 +178,16 @@ void parse(char *botusername, char *raw, parse_command_res_t *retparse)
         // for (int i = 0; i < total; i++) {
 
         // }
+        
 
 }
+
+void parse_cleanup(parse_command_res_t *retparse) 
+{
+        free(retparse->command);
+        free(retparse->content);
+}
+
 int main() 
 {
         char *data2 = "hai,haie,owww,yeff,pad,hil,s";
@@ -196,4 +210,5 @@ int main()
 
         printf("content : %s\n", rawres.content);
         printf("command : %s\n", rawres.command);
+        parse_cleanup(&rawres);
 }
